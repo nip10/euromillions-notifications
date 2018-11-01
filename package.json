@@ -1,0 +1,7 @@
+{
+  "name": "euromillions-notifications",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Diogo Cardoso <tuniq@live.com.pt>",
+  "license": "MIT"
+}
