@@ -1,0 +1,25 @@
+{
+  "name": "euromillions-notifications-client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Diogo Cardoso <tuniq@live.com.pt>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "dependencies": {
+    "cross-env": "^5.2.0",
+    "parcel-bundler": "^1.10.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "prettier": "^1.14.3",
+    "sass": "^1.14.3",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "typescript": "^3.1.6"
+  }
+}
