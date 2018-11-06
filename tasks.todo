@@ -1,0 +1,63 @@
+✔ Check koa default status (200 ?) @done(18-11-04 23:34)
+  It's 200
+✔ Add model @done(18-11-06 11:47)
+  Schema:
+    - Email (user email)
+    - MinPrize (integer)
+✔ Add route @done(18-11-06 11:47)
+    ✔ POST / @done(18-11-06 11:47)
+        Create new notification
+        ☐ Add controller
+            ☐ createNotification
+                ✔ Should receive email AND minprize @done(18-11-06 11:47)
+                    ✔ Add validation @done(18-11-06 11:47)
+                ✔ Should check if the email exists @done(18-11-06 12:31)
+                    Try to insert and see what happens
+                ✔ Should save that data in the db @done(18-11-06 12:31)
+                ✔ Should respond with 201/400/500 @done(18-11-06 12:31)
+                ☐ Should send an email with welcome message
+                    ☐ Setup email template in Sendgrid
+    ☐ POST /editnotification
+        This should send an email with a token
+        ☐ Add controller
+            ☐ sendEditNotificationEmail
+                ☐ Should receive email
+                ☐ Should generate a new token
+                ☐ Should send email with link for GET /editnotification/:token
+    ☐ POST /deletenotification
+        This should send an email with a token
+        ☐ Add controller
+            ☐ sendDeleteNotificationEmail
+                ☐ Should receive email
+                ☐ Should generate a new token
+                ☐ Should send email with link for GET /deletenotification/:token
+    ☐ PUT/PATCH /editnotification/:token
+        Edit minPrize
+        ☐ Add controller
+            ☐ editNotification
+                ☐ Should receive email, minprize and token
+                    ☐ Add validation
+                ☐ Should update db data
+                ☐ Should respond with 200/400
+    ☐ DELETE /deletenotification/:token
+        Delete notification
+        ☐ Add controller
+            ☐ deleteNotification
+                ☐ Should receive email and token
+                    ☐ Add validation
+                ☐ Should update db data (remove notification)
+                ☐ Should respond with 200/400
+☐ Move messages and db code errors to constants
+☐ Create interface for notificationObj
+☐ Consider sending the welcome email in the background and allow the process to continue
+    Since this email is just for saying welcome and basic information, it's not critical if the user
+    doesn't receive it ?
+☐ Test Joi validation errors
+    I may need to do some custom validation messages if Joi's arent that great
+☐ Allow multiple currencies
+☐ Create interface for email variables
+    variables: any
+
+Info:
+  - rss-parser
+  - santa casa rss
