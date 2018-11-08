@@ -3,13 +3,14 @@ import sgMail from '@sendgrid/mail';
 import { URL } from '../utils/constants';
 
 dotenv.config();
-const { EMAIL_SENDGRID_API_KEY, EMAIL_ADDRESS } = process.env;
+const { EMAIL_SENDGRID_API_KEY, EMAIL_ADDRESS, NODE_ENV } = process.env;
 
 sgMail.setApiKey(EMAIL_SENDGRID_API_KEY);
 
-// const isDev = NODE_ENV === 'development';
+const isDev = NODE_ENV === 'development';
 
 export function sendWelcomeEmail(to: string, variables: any) {
+  if (isDev) { return Promise.resolve(); }
   const msg = {
     to,
     from: EMAIL_ADDRESS,
