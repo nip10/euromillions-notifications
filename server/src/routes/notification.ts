@@ -5,14 +5,15 @@ import {
   sendEditNotificationEmail,
   editNotification,
   sendDeleteNotificationEmail,
-  deleteNotification } from '../controllers/notification';
-import { validateNotification } from '../middleware/validation';
+  deleteNotification
+} from '../controllers/notification';
+import { validateCreateNotification, validateEmail } from '../middleware/validation';
 
 const router = express.Router();
 
 router.get('/', sayHello);
-router.post('/', validateNotification, createNotification);
-router.post('/editnotification', sendEditNotificationEmail);
+router.post('/', validateCreateNotification, createNotification);
+router.post('/editnotification', validateEmail, sendEditNotificationEmail);
 router.patch('/editnotification/:token', editNotification);
 router.post('/deletenotification', sendDeleteNotificationEmail);
 router.delete('/deletenotification/:token', deleteNotification);
