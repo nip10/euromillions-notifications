@@ -7,22 +7,27 @@
 ✔ Add route @done(18-11-06 11:47)
     ✔ POST / @done(18-11-06 11:47)
         Create new notification
-        ☐ Add controller
-            ☐ createNotification
+        ✔ Add controller @done(18-11-08 00:37)
+            ✔ createNotification @done(18-11-08 00:37)
                 ✔ Should receive email AND minprize @done(18-11-06 11:47)
                     ✔ Add validation @done(18-11-06 11:47)
                 ✔ Should check if the email exists @done(18-11-06 12:31)
                     Try to insert and see what happens
                 ✔ Should save that data in the db @done(18-11-06 12:31)
                 ✔ Should respond with 201/400/500 @done(18-11-06 12:31)
-                ☐ Should send an email with welcome message
-                    ☐ Setup email template in Sendgrid
+                ✔ Should send an email with welcome message @done(18-11-08 00:37)
+                    ✔ Setup email template in Sendgrid @done(18-11-08 00:37)
     ☐ POST /editnotification
         This should send an email with a token
         ☐ Add controller
             ☐ sendEditNotificationEmail
-                ☐ Should receive email
-                ☐ Should generate a new token
+                ✔ Should receive email @done(18-11-08 00:52)
+                ✔ Should generate a new token @done(18-11-08 00:52)
+                    ☐ Figure out how to add the token to the db
+                        Needs two fields: token and createdAt or expiresAt
+                        Can be added to the current collection or a new one
+                        Figure out if mongo has some feature to autodelete a document based on a timestamp.
+                        This would make it easier to delete an unused and invalid token.
                 ☐ Should send email with link for GET /editnotification/:token
     ☐ POST /deletenotification
         This should send an email with a token
