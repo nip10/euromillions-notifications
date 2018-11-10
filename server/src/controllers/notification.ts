@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import uuidv4 from 'uuid/v4';
 import { Request, Response } from 'express';
 import Notification from '../models/notification';
 import { sendWelcomeEmail } from '../services/mail';
@@ -8,6 +9,7 @@ export function sayHello(req: Request, res: Response) {
 }
 
 export async function createNotification(req: Request, res: Response) {
+  // Get the notificationObj from the previous middleware
   const { notificationObj } = res.locals;
   const n = new Notification(notificationObj);
   try {
@@ -28,7 +30,13 @@ export async function createNotification(req: Request, res: Response) {
 }
 
 export function sendEditNotificationEmail(req: Request, res: Response) {
-  console.log('TODO');
+  // Get the email from the previous middleware
+  const { email } = res.locals;
+  // Generate a temporary token
+  const token = uuidv4();
+  // Save it to the database
+
+  // Send an email with the token
 }
 
 export function editNotification(req: Request, res: Response) {

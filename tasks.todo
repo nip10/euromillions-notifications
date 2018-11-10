@@ -1,5 +1,5 @@
 ✔ Check koa default status (200 ?) @done(18-11-04 23:34)
-  It's 200
+  It's 200.
 ✔ Add model @done(18-11-06 11:47)
   Schema:
     - Email (user email)
