@@ -22,5 +22,3 @@ export function sendWelcomeEmail(to: string, variables: any) {
   };
   return sgMail.send(msg);
 }
-
-
