@@ -7,15 +7,20 @@ import {
   sendDeleteNotificationEmail,
   deleteNotification
 } from '../controllers/notification';
-import { validateCreateNotification, validateEmail } from '../middleware/validation';
+import {
+  validateEmail,
+  validateCreateNotification,
+  validateEditNotification,
+  validateDeleteNotification,
+} from '../middleware/validation';
 
 const router = express.Router();
 
 router.get('/', sayHello);
 router.post('/', validateCreateNotification, createNotification);
 router.post('/editnotification', validateEmail, sendEditNotificationEmail);
-router.patch('/editnotification/:token', editNotification);
-router.post('/deletenotification', sendDeleteNotificationEmail);
-router.delete('/deletenotification/:token', deleteNotification);
+router.patch('/editnotification/:token/:minprize', validateEditNotification, editNotification);
+router.post('/deletenotification', validateEmail, sendDeleteNotificationEmail);
+router.delete('/deletenotification/:token', validateDeleteNotification, deleteNotification);
 
 export default router;
