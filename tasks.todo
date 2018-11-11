@@ -1,9 +1,8 @@
-✔ Check koa default status (200 ?) @done(18-11-04 23:34)
-  It's 200.
 ✔ Add model @done(18-11-06 11:47)
   Schema:
     - Email (user email)
     - MinPrize (integer)
+    - Token { value: string, expiresAt: date }
 ✔ Add route @done(18-11-06 11:47)
     ✔ POST / @done(18-11-06 11:47)
         Create new notification
@@ -23,42 +22,52 @@
             ☐ sendEditNotificationEmail
                 ✔ Should receive email @done(18-11-08 00:52)
                 ✔ Should generate a new token @done(18-11-08 00:52)
-                    ☐ Figure out how to add the token to the db
+                    ✔ Figure out how to add the token to the db @done(18-11-11 00:29)
                         Needs two fields: token and createdAt or expiresAt
                         Can be added to the current collection or a new one
                         Figure out if mongo has some feature to autodelete a document based on a timestamp.
                         This would make it easier to delete an unused and invalid token.
+
+                        Ended up adding a token field that is an object with 2 keys (value, expiresAt)
+                        Expired unused tokens must be deleted using a cronjob or something like that
                 ☐ Should send email with link for GET /editnotification/:token
     ☐ POST /deletenotification
         This should send an email with a token
         ☐ Add controller
             ☐ sendDeleteNotificationEmail
-                ☐ Should receive email
-                ☐ Should generate a new token
+                ✔ Should receive email @done(18-11-11 01:05)
+                ✔ Should generate a new token @done(18-11-11 01:06)
                 ☐ Should send email with link for GET /deletenotification/:token
-    ☐ PUT/PATCH /editnotification/:token
+    ✔ PATCH /editnotification/:token/:minprize @done(18-11-11 01:10)
         Edit minPrize
-        ☐ Add controller
-            ☐ editNotification
-                ☐ Should receive email, minprize and token
-                    ☐ Add validation
-                ☐ Should update db data
-                ☐ Should respond with 200/400
-    ☐ DELETE /deletenotification/:token
+        ✔ Add controller @done(18-11-11 01:06)
+            ✔ editNotification @done(18-11-11 01:06)
+                ✔ Should receive token and minprize @done(18-11-11 00:30)
+                    ✔ Add validation @done(18-11-11 00:30)
+                ✔ Should update db data @done(18-11-11 01:06)
+                ✔ Should respond with 200/400 @done(18-11-11 01:06)
+    ✔ DELETE /deletenotification/:token @done(18-11-11 01:07)
         Delete notification
-        ☐ Add controller
-            ☐ deleteNotification
-                ☐ Should receive email and token
-                    ☐ Add validation
-                ☐ Should update db data (remove notification)
-                ☐ Should respond with 200/400
-☐ Move messages and db code errors to constants
-☐ Create interface for notificationObj
+        ✔ Add controller @done(18-11-11 01:07)
+            ✔ deleteNotification @done(18-11-11 01:07)
+                ✔ Should receive token @done(18-11-11 01:07)
+                    ✔ Add validation @done(18-11-11 01:07)
+                ✔ Should update db data (remove notification) @done(18-11-11 01:07)
+                ✔ Should respond with 200/400 @done(18-11-11 01:07)
+☐ Move to constants
+    ☐ Error messages
+    ☐ Success messages
+    ☐ min/max prize values
+        currently .min(15).max(300)
+    ☐ token expiration duration
+        currently 1 day dt.setDate(dt.getDate() + 1);
+✔ Create interface for notificationObj @done(18-11-11 00:23)
 ☐ Consider sending the welcome email in the background and allow the process to continue
     Since this email is just for saying welcome and basic information, it's not critical if the user
     doesn't receive it ?
-☐ Test Joi validation errors
+✔ Test Joi validation errors @done(18-11-11 00:23)
     I may need to do some custom validation messages if Joi's arent that great
+    I ended up using my own error messages.
 ☐ Allow multiple currencies
 ☐ Create interface for email variables
     variables: any
