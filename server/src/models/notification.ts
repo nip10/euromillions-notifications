@@ -2,7 +2,11 @@ import mongoose from '../services/db';
 
 export interface INotificationDocument extends mongoose.Document {
   email: string,
-  minprize: number,
+  minPrize: number,
+  token?: {
+    value: string,
+    expiresAt: Date,
+  },
 }
 
 const NotificationSchema = new mongoose.Schema({
@@ -14,7 +18,14 @@ const NotificationSchema = new mongoose.Schema({
   minPrize: {
     type: Number,
     required: true,
-  }
+  },
+  token: {
+    type: {
+      value: String,
+      expiresAt: Date,
+    },
+    default: null,
+  },
 }, {
     timestamps: true,
   });
