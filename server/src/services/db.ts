@@ -35,12 +35,17 @@ const mongooseOptions = {
 // (node:13160) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
 mongoose.set('useCreateIndex', true);
 
-mongoose.connect(dburl, mongooseOptions)
-  .then(() => {
-    logger.info('Connected to database.');
-  }, (err: any) => {
-    logger.error(`Connection to the database failed. Details: ${err}`);
-    process.exit(1);
-  });
+// Don't start MongoDB if we are in test mode.
+if (NODE_ENV !== 'test') {
+  mongoose.connect(dburl, mongooseOptions)
+    .then(() => {
+      logger.info('Connected to database.');
+    })
+    .catch((err: any) => {
+      logger.error(`Connection to the database failed. Details: ${err}`);
+      process.exit(1);
+    });
+}
 
+export { mongooseOptions, dburl };
 export default mongoose;
