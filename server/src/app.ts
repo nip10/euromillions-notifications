@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import routes from './routes/notification';
 
 dotenv.config({ path: '.env' });
-const { PORT, NODE_ENV } = process.env;
+const { NODE_ENV } = process.env;
 const isDev = NODE_ENV === 'development';
 
 const app = express();
@@ -30,6 +30,4 @@ app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFuncti
   return res.status(500).json({ error: isDev ? err : null });
 });
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT} in ${NODE_ENV} mode`);
-});
+export default app;
