@@ -20,19 +20,14 @@ app.use('/api', routes);
 
 // Handle 404s
 app.use((req: Request, res: Response) => {
-  const err = new Error('Error: Page Not Found.');
-  return res.status(404).render('error', {
-    error: err,
-  });
+  const err = new Error('Page Not Found.');
+  return res.status(404).json({ error: err });
 });
 
 // Handle server errors
 app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) { return next(err); }
-  console.log(err);
-  return res.status(500).render('error', {
-    error: isDev ? err : null,
-  });
+  return res.status(500).json({ error: isDev ? err : null });
 });
 
 app.listen(PORT, () => {
