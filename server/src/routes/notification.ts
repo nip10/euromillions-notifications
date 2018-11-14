@@ -17,7 +17,7 @@ import {
 const router = express.Router();
 
 router.get('/', sayHello);
-router.post('/', validateCreateNotification, createNotification);
+router.post('/createnotification', validateCreateNotification, createNotification);
 router.post('/editnotification', validateEmail, sendEditNotificationEmail);
 router.patch('/editnotification/:token/:minprize', validateEditNotification, editNotification);
 router.post('/deletenotification', validateEmail, sendDeleteNotificationEmail);
