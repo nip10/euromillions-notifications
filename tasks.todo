@@ -71,6 +71,9 @@
 ☐ Allow multiple currencies
 ☐ Create interface for email variables
     variables: any
+☐ Add logger
+    The logger itself is already in the codebase, but there are some console.logs left.
+    Also, there's no logging on some "catches".
 
 Info:
   - rss-parser
