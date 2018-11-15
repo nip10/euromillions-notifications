@@ -19,7 +19,7 @@ const router = express.Router();
 router.get('/', sayHello);
 router.post('/createnotification', validateCreateNotification, createNotification);
 router.post('/editnotification', validateEmail, sendEditNotificationEmail);
-router.patch('/editnotification/:token/:minprize', validateEditNotification, editNotification);
+router.patch('/editnotification', validateEditNotification, editNotification);
 router.post('/deletenotification', validateEmail, sendDeleteNotificationEmail);
 router.delete('/deletenotification/:token', validateDeleteNotification, deleteNotification);
 
