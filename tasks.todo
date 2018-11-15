@@ -61,6 +61,9 @@
         currently .min(15).max(300)
     ☐ token expiration duration
         currently 1 day dt.setDate(dt.getDate() + 1);
+    ☐ After setting thiu up, compare the api responses with the constants
+        Basically, uncomment the lines that look like
+            expect(res.body.error).toBe(THE_CONSTANT);
 ✔ Create interface for notificationObj @done(18-11-11 00:23)
 ☐ Consider sending the welcome email in the background and allow the process to continue
     Since this email is just for saying welcome and basic information, it's not critical if the user
@@ -72,8 +75,9 @@
 ☐ Create interface for email variables
     variables: any
 ☐ Add logger
-    The logger itself is already in the codebase, but there are some console.logs left.
-    Also, there's no logging on some "catches".
+    ☐ Log stuff
+☐ Add travisci
+☐ Fix prettier not working with ts
 
 Info:
   - rss-parser
