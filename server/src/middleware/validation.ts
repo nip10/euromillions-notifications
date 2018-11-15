@@ -40,8 +40,8 @@ export function validateEmail(req: Request, res: Response, next: NextFunction) {
 };
 
 export function validateEditNotification(req: Request, res: Response, next: NextFunction) {
-  const { token } = req.params;
-  const minPrize = Number.parseInt(req.params.minprize, 10);
+  const { token } = req.body;
+  const minPrize = Number.parseInt(req.body.minprize, 10);
 
   const schema = {
     token: Joi.string().required(),
