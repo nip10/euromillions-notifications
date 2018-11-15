@@ -51,12 +51,14 @@ export async function sendEditNotificationEmail(req: Request, res: Response) {
 }
 
 export async function editNotification(req: Request, res: Response) {
-  const { token, minPrize } = res.locals;
+  const { token, minPrize } = res.locals.editNotificationObj;
   let notificationObj;
   try {
     // Check if token is associated with an account
     notificationObj = await Notification.findOne({ 'token.value': token });
-    // TODO: Is the error passed to the variable or does it throw automatically ?
+    if (_.isNil(notificationObj)) {
+      throw new Error();
+    }
   } catch (e) {
     return res.status(400).json({ error: 'Invalid token.' });
   }
@@ -96,12 +98,14 @@ export async function sendDeleteNotificationEmail(req: Request, res: Response) {
 }
 
 export async function deleteNotification(req: Request, res: Response) {
-  const { token } = res.locals;
+  const { token } = res.locals.deleteNotificationObj;
   let notificationObj;
   try {
     // Check if token is associated with an account
     notificationObj = await Notification.findOne({ 'token.value': token });
-    // TODO: Is the error passed to the variable or does it throw automatically ?
+    if (_.isNil(notificationObj)) {
+      throw new Error();
+    }
   } catch (e) {
     return res.status(400).json({ error: 'Invalid token.' });
   }
@@ -119,4 +123,3 @@ export async function deleteNotification(req: Request, res: Response) {
     return res.status(500).json({ error: 'Server error. Please try again later' });
   }
 }
-
