@@ -10,7 +10,7 @@
     "debug": "cross-env NODE_ENV=development nodemon --config nodemon-debug.json",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "start": "cross-env NODE_ENV=production node dist/app.js",
-    "test": "cross-env NODE_ENV=test jest --forceExit",
+    "test": "cross-env NODE_ENV=test jest --verbose",
     "test:coverage": "cross-env NODE_ENV=test jest --forceExit --coverage",
     "test:watch": "cross-env NODE_ENV=test yarn run test -- --watchAll"
   },
