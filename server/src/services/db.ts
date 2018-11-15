@@ -21,7 +21,7 @@ if (isTest && _.isNil(MONGODB_URI_TEST)) {
   process.exit(1);
 }
 
-const dburl = isTest ? MONGODB_URI_TEST : MONGODB_URI;
+const dbUrl = isTest ? MONGODB_URI_TEST : MONGODB_URI;
 
 (mongoose as any).Promise = Bluebird;
 
@@ -37,7 +37,7 @@ mongoose.set('useCreateIndex', true);
 
 // Don't start MongoDB if we are in test mode.
 if (NODE_ENV !== 'test') {
-  mongoose.connect(dburl, mongooseOptions)
+  mongoose.connect(dbUrl, mongooseOptions)
     .then(() => {
       logger.info('Connected to database.');
     })
@@ -47,5 +47,5 @@ if (NODE_ENV !== 'test') {
     });
 }
 
-export { mongooseOptions, dburl };
+export { mongooseOptions, dbUrl };
 export default mongoose;
