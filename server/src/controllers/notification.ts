@@ -12,9 +12,8 @@ export function sayHello(req: Request, res: Response) {
 export async function createNotification(req: Request, res: Response) {
   // Get the notificationObj from the previous middleware
   const { notificationObj }: {notificationObj: INotificationDocument} = res.locals;
-  const n = new Notification(notificationObj);
   try {
-    await n.save();
+    await Notification.create(notificationObj);
     res.sendStatus(201);
     // No 'return' here because we still need to send the email later
   } catch (e) {
