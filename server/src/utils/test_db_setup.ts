@@ -1,8 +1,9 @@
-import mongoose, { dbUrl, mongooseOptions } from "../services/db";
-import logger from "./logger";
-import Notification, { INotificationDocument, INotification } from './../models/notification';
 import _ from 'lodash';
 import uuidv4 from 'uuid/v4';
+import logger from "./logger";
+import mongoose, { dbUrl, mongooseOptions } from "../services/db";
+import Notification, { INotification } from '../models/notification';
+import { TOKEN_DURATION_IN_DAYS } from '../utils/constants';
 
 const startDb = async () => {
   try {
@@ -26,7 +27,7 @@ const cleanDb = async () => {
 }
 
 const createToken = (expired: boolean = false) => {
-  const expiresAtInterval = expired ? -1 : 1;
+  const expiresAtInterval = expired ? -TOKEN_DURATION_IN_DAYS : TOKEN_DURATION_IN_DAYS;
   const dt = new Date();
   dt.setDate(dt.getDate() + expiresAtInterval);
   return {

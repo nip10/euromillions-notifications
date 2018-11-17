@@ -1,9 +1,17 @@
 import _ from 'lodash';
 
-export const URL = {
-  INDEX: _.template('https://p.dcdev.pt/euronotify'),
+export const TOKEN_DURATION_IN_DAYS = 1;
+
+export const PRIZE = {
+  MAX: 300,
+  MIN: 15,
 }
 
+export const URL = {
+  INDEX: 'https://p.dcdev.pt/euronotify',
+  UPDATE: _.template('https://p.dcdev.pt/euronotify/editnotification/${token}'),
+  DELETE: _.template('https://p.dcdev.pt/euronotify/deletenotification/${token}'),
+}
 export const ERROR = {
   SERVER: 'Server error. Please try again later.',
   EMAIL_DUPLICATE: 'Email already registred.',
@@ -14,5 +22,5 @@ export const ERROR = {
 export const VALIDATION = {
   EMAIL_INVALID: _.template('${email} is not a valid email address'),
   TOKEN_INVALID: 'Invalid token.',
-  MINPRIZE_INVALID: 'Minprize is not a valid value. Please insert a number between X and Y.',
+  MINPRIZE_INVALID: `Minprize is not a valid value. Please insert a number between ${PRIZE.MIN} and ${PRIZE.MAX}.`,
 }
