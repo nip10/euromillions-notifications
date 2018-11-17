@@ -1,16 +1,21 @@
 language: node_js
 node_js:
-- '10'
+  - '10'
 cache:
   yarn: true
 services:
   - mongodb
 script:
-- yarn lint
-- yarn test
+  - yarn global codecov
+  - yarn lint
+  - yarn test
 before_install:
-- cd server
-- yarn
+  - cd server
+  - yarn
+after_success:
+  - codecov
+notifications:
+  email: false
 env:
   global:
     - secure: "IcUdzQ0s0b5W9r4EIXkOuWDp0T1Tq0NHqTaC0+YAyoBxjR1oOfvug8JJ+0+94jbwXa4HqlNw8Ou+ydJgiVJCmiG86P7EDTe3bujpzkcppRsL1iJaCg4M7hLJov/8QV8C0c39olfy/m83DnerKG7qldikzC8q+X5UtRkfHE4c5oDFIeMH6lM1F0+sYm1p+fZFY+qJW2vhMjaATQp5nU1A8K70mZyzDl7RpuevUGsEnBpv4EwTUrjev0R0QpFQMQ3aniryIXybC7HzCdbf1NhiOYVxQFGN3SznVgnqpGbfKlWJiLIauL/PHUx1GCWElRJV3cEOLgiiR2FoA9B33QB02jRQ4wyxONtvUCUOXT938efUtBYkr2xgFJwQn97UOdKzkGBwlQukDfMY9nFBksHhwmkr9pSX87cL17WLuoYhV8qJCHfIF9ogNQGsys9YOHZA2HRkqJW9a9X8SEVDKMfxEPEnCUq5Nh5RvL8ziVNEMP55jxrfRdMCvKKTatcIFNuU/HYUrdVoUskWABkI2xzywL4lD0aTgnJVdW7YlslGYLcQfilCKQYmd6PiDF4D1RRa/FZK9ereZJHar3yo+6r5OrNABsZly1YMsaxR4GFsAQfsaDWJBVsfdZiq9ftCEGpoib/ohJSOB/hP22AZoiuWNBz6Txe3fNOfjpL3YBM6V/k="
