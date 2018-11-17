@@ -5,7 +5,7 @@ import { VALIDATION } from './../utils/constants';
 
 export function validateCreateNotification(req: Request, res: Response, next: NextFunction) {
   const { email } = req.body;
-  const minPrize = Number.parseInt(req.body.minprize, 10);
+  const minPrize = Number.parseInt(req.body.minPrize, 10);
 
   const schema = {
     email: Joi.string().email().required(),
@@ -45,7 +45,7 @@ export function validateEmail(req: Request, res: Response, next: NextFunction) {
 
 export function validateEditNotification(req: Request, res: Response, next: NextFunction) {
   const { token } = req.body;
-  const minPrize = Number.parseInt(req.body.minprize, 10);
+  const minPrize = Number.parseInt(req.body.minPrize, 10);
 
   const schema = {
     token: Joi.string().required(),

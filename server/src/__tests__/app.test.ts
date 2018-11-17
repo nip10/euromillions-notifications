@@ -26,9 +26,9 @@ describe('GET /', () => {
 
 describe('POST /createnotification', () => {
   it('should create a notification', async (done) => {
-    const notificationObj = {
+    const notificationObj: INotification = {
       email: 'john@mail.com',
-      minprize: 100,
+      minPrize: 100,
     }
     const res = await request(app).post('/api/createnotification')
       .send(notificationObj)
@@ -41,7 +41,7 @@ describe('POST /createnotification', () => {
   it('should respond with 400 and a validation error when the email is invalid', async (done) => {
     const notificationObj = {
       email: 'not_a_valid_email',
-      minprize: 100,
+      minPrize: 100,
     }
     const res = await request(app).post('/api/createnotification')
       .send(notificationObj)
@@ -52,10 +52,10 @@ describe('POST /createnotification', () => {
     expect(res.body.error).toBe(VALIDATION.EMAIL_INVALID({ email: notificationObj.email }));
     done();
   });
-  it('should respond with 400 and a validation error when the minprize is invalid', async (done) => {
+  it('should respond with 400 and a validation error when the minPrize is invalid', async (done) => {
     const notificationObj = {
       email: 'john@mail.com',
-      minprize: 'not_a_valid_minprize',
+      minPrize: 'not_a_valid_minprize',
     }
     const res = await request(app).post('/api/createnotification')
       .send(notificationObj)
@@ -111,12 +111,12 @@ describe('POST /editnotification', () => {
 });
 
 describe('PATCH /editnotification', () => {
-  it('should update the minprize', async (done) => {
+  it('should update the minPrize', async (done) => {
     const token = fakeNotifications[0].token.value;
-    const minprize = 123;
+    const minPrize = 123;
     const res = await request(app)
       .patch('/api/editnotification')
-      .send({ token, minprize })
+      .send({ token, minPrize })
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
@@ -124,10 +124,10 @@ describe('PATCH /editnotification', () => {
   });
   it('should respond with 400 and a validation error when token is invalid', async (done) => {
     const token: null = null;
-    const minprize = 123;
+    const minPrize = 123;
     const res = await request(app)
       .patch('/api/editnotification')
-      .send({ token, minprize })
+      .send({ token, minPrize })
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -135,12 +135,12 @@ describe('PATCH /editnotification', () => {
     expect(res.body.error).toBe(VALIDATION.TOKEN_INVALID);
     done();
   });
-  it('should respond with 400 and a validation error when minprize is invalid', async (done) => {
+  it('should respond with 400 and a validation error when minPrize is invalid', async (done) => {
     const token = fakeNotifications[0].token.value;
-    const minprize = 'not_a_valid_minprize';
+    const minPrize = 'not_a_valid_minprize';
     const res = await request(app)
       .patch('/api/editnotification')
-      .send({ token, minprize })
+      .send({ token, minPrize })
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -150,14 +150,15 @@ describe('PATCH /editnotification', () => {
   });
   it('should respond with 400 and an error when the token is invalid (doesnt exits)', async (done) => {
     const token = 'not_the_real_token';
-    const minprize = 123;
+    const minPrize = 123;
     const res = await request(app)
       .patch('/api/editnotification')
-      .send({ token, minprize })
+      .send({ token, minPrize })
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
+    expect(res.body.error).toBe(VALIDATION.TOKEN_INVALID);
     expect(res.body.error).toBe(ERROR.TOKEN_EXPIRED);
     done();
   });
@@ -218,7 +219,7 @@ describe('DELETE /deletenotification/:token', () => {
     expect(res.body.error).toBe(VALIDATION.TOKEN_INVALID);
     done();
   });
-  it('should respond with 400 and an error when the token is invalid (doesnt exits)', async (done) => {
+  it('should respond with 400 and an error when the token is invalid (doesnt exist)', async (done) => {
     const token = 'not_the_real_token';
     const res = await request(app)
       .delete(`/api/deletenotification/${token}`)
