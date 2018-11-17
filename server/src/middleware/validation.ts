@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import _ from 'lodash';
 import { Request, Response, NextFunction } from 'express';
+import { VALIDATION } from './../utils/constants';
 
 export function validateCreateNotification(req: Request, res: Response, next: NextFunction) {
   const { email } = req.body;
@@ -14,8 +15,11 @@ export function validateCreateNotification(req: Request, res: Response, next: Ne
   const { error, value } = Joi.validate({ email, minPrize }, schema);
 
   if (error) {
-    res.status(400).json({ error: `${value} is not valid.` });
-    // TODO: Add better validation errors since there are multiple params
+    if (error.details[0].path[0] === 'email') {
+      res.status(400).json({ error: VALIDATION.EMAIL_INVALID({ email: value.email }) });
+    } else if (error.details[0].path[0] === 'minPrize') {
+      res.status(400).json({ error: VALIDATION.MINPRIZE_INVALID });
+    }
   } else {
     // Send the notification object to the next middleware
     res.locals.notificationObj = { email, minPrize };
@@ -31,7 +35,7 @@ export function validateEmail(req: Request, res: Response, next: NextFunction) {
   const { error, value } = Joi.validate(email, schema);
 
   if (error) {
-    res.status(400).json({ error: `${value} is not a valid email address.` });
+    res.status(400).json({ error: VALIDATION.EMAIL_INVALID({ email: value }) });
   } else {
     // Send the notification object to the next middleware
     res.locals.email = email;
@@ -51,8 +55,11 @@ export function validateEditNotification(req: Request, res: Response, next: Next
   const { error, value } = Joi.validate({ token, minPrize }, schema);
 
   if (error) {
-    res.status(400).json({ error: `${value} is not valid.` });
-    // TODO: Add better validation errors since there are multiple params
+    if (error.details[0].path[0] === 'token') {
+      res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
+    } else if (error.details[0].path[0] === 'minPrize') {
+      res.status(400).json({ error: VALIDATION.MINPRIZE_INVALID });
+    }
   } else {
     // Send the edit notification object to the next middleware
     res.locals.editNotificationObj = { token, minPrize };
@@ -68,7 +75,7 @@ export function validateDeleteNotification(req: Request, res: Response, next: Ne
   const { error, value } = Joi.validate(token, schema);
 
   if (error) {
-    res.status(400).json({ error: `Invalid token ${value}` });
+    res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
   } else {
     // Send the edit notification object to the next middleware
     res.locals.deleteNotificationObj = { token };

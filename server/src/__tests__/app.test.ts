@@ -2,6 +2,7 @@ import request from 'supertest';
 import app from './../app';
 import Notification from './../models/notification';
 import { setupDb, stopDb, fakeNotifications } from '../utils/test_db_setup';
+import { ERROR, VALIDATION } from './../utils/constants'
 
 beforeAll(async (done) => {
   await setupDb();
@@ -48,7 +49,7 @@ describe('POST /createnotification', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(VALIDATION.EMAIL_INVALID({ email: notificationObj.email }));
     done();
   });
   it('should respond with 400 and a validation error when the minprize is invalid', async (done) => {
@@ -62,7 +63,7 @@ describe('POST /createnotification', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(VALIDATION.MINPRIZE_INVALID);
     done();
   });
   it('should respond with 400 and an error if the email is already registred', async (done) => {
@@ -73,7 +74,7 @@ describe('POST /createnotification', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(ERROR.EMAIL_DUPLICATE);
     done();
   });
 });
@@ -104,7 +105,7 @@ describe('POST /editnotification', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(VALIDATION.EMAIL_INVALID({ email }));
     done();
   });
 });
@@ -131,7 +132,7 @@ describe('PATCH /editnotification', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(VALIDATION.TOKEN_INVALID);
     done();
   });
   it('should respond with 400 and a validation error when minprize is invalid', async (done) => {
@@ -144,7 +145,7 @@ describe('PATCH /editnotification', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(VALIDATION.MINPRIZE_INVALID);
     done();
   });
   it('should respond with 400 and an error when the token is invalid (doesnt exits)', async (done) => {
@@ -157,7 +158,7 @@ describe('PATCH /editnotification', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(ERROR.TOKEN_EXPIRED);
     done();
   });
   // it('should respond with 400 and an error when the token is invalid (expired)', (done) => {
@@ -191,7 +192,7 @@ describe('POST /deletenotification', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(VALIDATION.EMAIL_INVALID({ email }));
     done();
   });
 });
@@ -214,7 +215,7 @@ describe('DELETE /deletenotification/:token', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(VALIDATION.TOKEN_INVALID);
     done();
   });
   it('should respond with 400 and an error when the token is invalid (doesnt exits)', async (done) => {
@@ -225,7 +226,7 @@ describe('DELETE /deletenotification/:token', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
-    // expect(res.body.error).toBe(ERROR CONSTANT);
+    expect(res.body.error).toBe(VALIDATION.TOKEN_INVALID);
     done();
   });
   // it('should respond with 400 and an error when the token is invalid (expired)', (done) => {

@@ -3,6 +3,7 @@ import uuidv4 from 'uuid/v4';
 import { Request, Response } from 'express';
 import Notification, { INotificationDocument } from '../models/notification';
 import { sendWelcomeEmail } from '../services/mail';
+import { ERROR, VALIDATION } from './../utils/constants';
 
 export function sayHello(req: Request, res: Response) {
   return res.json({ message: 'Hello' });
@@ -18,15 +19,15 @@ export async function createNotification(req: Request, res: Response) {
     // No 'return' here because we still need to send the email later
   } catch (e) {
     if (e.code === 11000) {
-      return res.status(400).json({ error: 'Email already registred.' });
+      return res.status(400).json({ error: ERROR.EMAIL_DUPLICATE });
     } else {
-      return res.status(500).json({ error: 'Server error.' });
+      return res.status(500).json({ error: ERROR.SERVER });
     }
   }
   try {
     await sendWelcomeEmail(notificationObj.email, { minPrize: notificationObj.minPrize });
   } catch (e) {
-    return res.status(500).json({ error: 'Unable to send email.' });
+    return res.status(500).json({ error: ERROR.EMAIL_SEND });
   }
 }
 
@@ -46,7 +47,7 @@ export async function sendEditNotificationEmail(req: Request, res: Response) {
     // TODO: Send an "edit" email with the token
     return res.sendStatus(200);
   } catch (e) {
-    return res.status(500).json({ error: 'Server error. Please try again later.' });
+    return res.status(500).json({ error: ERROR.SERVER });
   }
 }
 
@@ -60,20 +61,20 @@ export async function editNotification(req: Request, res: Response) {
       throw new Error();
     }
   } catch (e) {
-    return res.status(400).json({ error: 'Invalid token.' });
+    return res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
   }
   const dt = new Date();
   dt.setDate(dt.getDate() + 1);
   // Check if token has expired
   if (notificationObj.token.expiresAt.getDate() < dt.getDate()) {
-    return res.status(400).json({ error: 'Token has expired. You need to request a new token. '});
+    return res.status(400).json({ error: ERROR.TOKEN_EXPIRED });
   }
   // Update minPrize and remove token
   try {
     await Notification.updateOne({ email: notificationObj.email }, { minPrize, token: null });
     return res.sendStatus(200);
   } catch (e) {
-    return res.status(500).json({ error: 'Server error. Please try again later' });
+    return res.status(500).json({ error: ERROR.SERVER });
   }
 }
 
@@ -93,7 +94,7 @@ export async function sendDeleteNotificationEmail(req: Request, res: Response) {
     // TODO: Send a "delete" email with the token
     return res.sendStatus(200);
   } catch (e) {
-    return res.status(500).json({ error: 'Server error. Please try again later.' });
+    return res.status(500).json({ error: ERROR.SERVER });
   }
 }
 
@@ -107,19 +108,19 @@ export async function deleteNotification(req: Request, res: Response) {
       throw new Error();
     }
   } catch (e) {
-    return res.status(400).json({ error: 'Invalid token.' });
+    return res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
   }
   const dt = new Date();
   dt.setDate(dt.getDate() + 1);
   // Check if token has expired
   if (notificationObj.token.expiresAt.getDate() < dt.getDate()) {
-    return res.status(400).json({ error: 'Token has expired. You need to request a new token. '});
+    return res.status(400).json({ error: ERROR.TOKEN_EXPIRED });
   }
   // Delete notification
   try {
     await Notification.deleteOne({ email: notificationObj.email });
     return res.sendStatus(200);
   } catch (e) {
-    return res.status(500).json({ error: 'Server error. Please try again later' });
+    return res.status(500).json({ error: ERROR.SERVER });
   }
 }
