@@ -17,7 +17,7 @@ const startDb = async () => {
 const cleanDb = async () => {
   try {
     // Clear collections
-    await mongoose.connection.db.dropDatabase();
+    await mongoose.connection.dropDatabase();
     logger.info('Removed old database.')
   } catch (err) {
     logger.error(`Couldn't remove collection. Details: ${err}`);
