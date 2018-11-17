@@ -8,7 +8,7 @@
         Create new notification
         ✔ Add controller @done(18-11-08 00:37)
             ✔ createNotification @done(18-11-08 00:37)
-                ✔ Should receive email AND minprize @done(18-11-06 11:47)
+                ✔ Should receive email AND minPrize @done(18-11-06 11:47)
                     ✔ Add validation @done(18-11-06 11:47)
                 ✔ Should check if the email exists @done(18-11-06 12:31)
                     Try to insert and see what happens
@@ -38,11 +38,11 @@
                 ✔ Should receive email @done(18-11-11 01:05)
                 ✔ Should generate a new token @done(18-11-11 01:06)
                 ☐ Should send email with link for GET /deletenotification/:token
-    ✔ PATCH /editnotification/:token/:minprize @done(18-11-11 01:10)
+    ✔ PATCH /editnotification/:token/:minPrize @done(18-11-11 01:10)
         Edit minPrize
         ✔ Add controller @done(18-11-11 01:06)
             ✔ editNotification @done(18-11-11 01:06)
-                ✔ Should receive token and minprize @done(18-11-11 00:30)
+                ✔ Should receive token and minPrize @done(18-11-11 00:30)
                     ✔ Add validation @done(18-11-11 00:30)
                 ✔ Should update db data @done(18-11-11 01:06)
                 ✔ Should respond with 200/400 @done(18-11-11 01:06)
@@ -78,6 +78,25 @@
     ☐ Log stuff
 ☐ Add travisci
 ☐ Fix prettier not working with ts
+☐ Add to MongoDB notes:
+    When using { unique: true }, you have to make sure MongoDB has created all the indexes before saving documents.
+    I had a failing test (duplicate email) which was not working properly because the duplicate email was
+    being saved on the db.
+    To solve this, there are 2 options
+    1. After creating the db. check for the 'index' event.
+    2. Before saving a doc, call await Model.init()
+
+    Note that MongoDB persists indexes, so you only need to rebuild indexes if you're starting with a fresh database or you ran db.dropDatabase()
+
+    Ref https://github.com/Automattic/mongoose/issues/5050#issuecomment-397421111
+    Ref https://mongoosejs.com/docs/faq.html (Q. I declared a schema property as unique but I can still save duplicates. What gives?)
+☐ Test sending an email to an invalid email
+☐ Figure out the differences between mongoose.connection.dropDatabase() and mongoose.connection.db.dropDatabase();
+    In setting up tests
+        This works:
+            await mongoose.connection.dropDatabase();
+        This does NOT work:
+            await mongoose.connection.db.dropDatabase();
 
 Info:
   - rss-parser
