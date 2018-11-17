@@ -1,13 +1,15 @@
 import mongoose from '../services/db';
 
-export interface INotificationDocument extends mongoose.Document {
+export interface INotification {
   email: string,
   minPrize: number,
   token?: {
     value: string,
     expiresAt: Date,
   },
-}
+};
+
+export interface INotificationDocument extends INotification, mongoose.Document {};
 
 const NotificationSchema = new mongoose.Schema({
   email: {
