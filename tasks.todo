@@ -1,95 +1,12 @@
-✔ Add model @done(18-11-06 11:47)
-  Schema:
-    - Email (user email)
-    - MinPrize (integer)
-    - Token { value: string, expiresAt: date }
-✔ Add route @done(18-11-06 11:47)
-    ✔ POST / @done(18-11-06 11:47)
-        Create new notification
-        ✔ Add controller @done(18-11-08 00:37)
-            ✔ createNotification @done(18-11-08 00:37)
-                ✔ Should receive email AND minPrize @done(18-11-06 11:47)
-                    ✔ Add validation @done(18-11-06 11:47)
-                ✔ Should check if the email exists @done(18-11-06 12:31)
-                    Try to insert and see what happens
-                ✔ Should save that data in the db @done(18-11-06 12:31)
-                ✔ Should respond with 201/400/500 @done(18-11-06 12:31)
-                ✔ Should send an email with welcome message @done(18-11-08 00:37)
-                    ✔ Setup email template in Sendgrid @done(18-11-08 00:37)
-    ☐ POST /editnotification
-        This should send an email with a token
-        ☐ Add controller
-            ☐ sendEditNotificationEmail
-                ✔ Should receive email @done(18-11-08 00:52)
-                ✔ Should generate a new token @done(18-11-08 00:52)
-                    ✔ Figure out how to add the token to the db @done(18-11-11 00:29)
-                        Needs two fields: token and createdAt or expiresAt
-                        Can be added to the current collection or a new one
-                        Figure out if mongo has some feature to autodelete a document based on a timestamp.
-                        This would make it easier to delete an unused and invalid token.
-
-                        Ended up adding a token field that is an object with 2 keys (value, expiresAt)
-                        Expired unused tokens must be deleted using a cronjob or something like that
-                ☐ Should send email with link for GET /editnotification/:token
-    ☐ POST /deletenotification
-        This should send an email with a token
-        ☐ Add controller
-            ☐ sendDeleteNotificationEmail
-                ✔ Should receive email @done(18-11-11 01:05)
-                ✔ Should generate a new token @done(18-11-11 01:06)
-                ☐ Should send email with link for GET /deletenotification/:token
-    ✔ PATCH /editnotification/:token/:minPrize @done(18-11-11 01:10)
-        Edit minPrize
-        ✔ Add controller @done(18-11-11 01:06)
-            ✔ editNotification @done(18-11-11 01:06)
-                ✔ Should receive token and minPrize @done(18-11-11 00:30)
-                    ✔ Add validation @done(18-11-11 00:30)
-                ✔ Should update db data @done(18-11-11 01:06)
-                ✔ Should respond with 200/400 @done(18-11-11 01:06)
-    ✔ DELETE /deletenotification/:token @done(18-11-11 01:07)
-        Delete notification
-        ✔ Add controller @done(18-11-11 01:07)
-            ✔ deleteNotification @done(18-11-11 01:07)
-                ✔ Should receive token @done(18-11-11 01:07)
-                    ✔ Add validation @done(18-11-11 01:07)
-                ✔ Should update db data (remove notification) @done(18-11-11 01:07)
-                ✔ Should respond with 200/400 @done(18-11-11 01:07)
-☐ Move to constants
-    ☐ Error messages
-    ☐ Success messages
-    ☐ min/max prize values
-        currently .min(15).max(300)
-    ☐ token expiration duration
-        currently 1 day dt.setDate(dt.getDate() + 1);
-    ☐ After setting thiu up, compare the api responses with the constants
-        Basically, uncomment the lines that look like
-            expect(res.body.error).toBe(THE_CONSTANT);
-✔ Create interface for notificationObj @done(18-11-11 00:23)
 ☐ Consider sending the welcome email in the background and allow the process to continue
     Since this email is just for saying welcome and basic information, it's not critical if the user
     doesn't receive it ?
-✔ Test Joi validation errors @done(18-11-11 00:23)
-    I may need to do some custom validation messages if Joi's arent that great
-    I ended up using my own error messages.
 ☐ Allow multiple currencies
 ☐ Create interface for email variables
     variables: any
 ☐ Add logger
     ☐ Log stuff
-☐ Add travisci
 ☐ Fix prettier not working with ts
-☐ Add to MongoDB notes:
-    When using { unique: true }, you have to make sure MongoDB has created all the indexes before saving documents.
-    I had a failing test (duplicate email) which was not working properly because the duplicate email was
-    being saved on the db.
-    To solve this, there are 2 options
-    1. After creating the db. check for the 'index' event.
-    2. Before saving a doc, call await Model.init()
-
-    Note that MongoDB persists indexes, so you only need to rebuild indexes if you're starting with a fresh database or you ran db.dropDatabase()
-
-    Ref https://github.com/Automattic/mongoose/issues/5050#issuecomment-397421111
-    Ref https://mongoosejs.com/docs/faq.html (Q. I declared a schema property as unique but I can still save duplicates. What gives?)
 ☐ Test sending an email to an invalid email
 ☐ Figure out the differences between mongoose.connection.dropDatabase() and mongoose.connection.db.dropDatabase();
     In setting up tests
@@ -97,11 +14,13 @@
             await mongoose.connection.dropDatabase();
         This does NOT work:
             await mongoose.connection.db.dropDatabase();
-☐ Show coverage on github
-☐ Show build status on github
-☐ Add env vars to Travis
-    Tests are failing because they are undefined
-
+☐ Add script (cron)
+    ☐ Run after drafts
+        Allow a few hours for the rss to update
+    ☐ Get email addresses that have a minPrize lower than the current prize
+    ☐ Send an email to everyone
+        ☐ Make a template in Sendgrid
+☐ Consider adding a Sinon spy on the all the email functions
 Info:
   - rss-parser
   - santa casa rss
