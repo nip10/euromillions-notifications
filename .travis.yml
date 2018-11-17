@@ -6,7 +6,7 @@ cache:
 services:
   - mongodb
 script:
-  - yarn global codecov
+  - yarn global add codecov
   - yarn lint
   - yarn test
 before_install:
