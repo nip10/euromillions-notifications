@@ -1,6 +1,6 @@
 import mongoose, { dbUrl, mongooseOptions } from "../services/db";
 import logger from "./logger";
-import Notification from './../models/notification';
+import Notification, { INotificationDocument, INotification } from './../models/notification';
 import _ from 'lodash';
 import uuidv4 from 'uuid/v4';
 
@@ -25,16 +25,17 @@ const cleanDb = async () => {
   }
 }
 
-const createToken = () => {
+const createToken = (expired: boolean = false) => {
+  const expiresAtInterval = expired ? -1 : 1;
   const dt = new Date();
-  dt.setDate(dt.getDate() + 1);
+  dt.setDate(dt.getDate() + expiresAtInterval);
   return {
     value: uuidv4(),
     expiresAt: dt,
   };
 }
 
-export const fakeNotifications = [
+export const fakeNotifications: INotification[] = [
   {
     email: 'a@mail.com',
     minPrize: 50,
@@ -53,19 +54,18 @@ export const fakeNotifications = [
     minPrize: 150,
     token: createToken(),
   },
+  {
+    email: 'e@mail.com',
+    minPrize: 80,
+    token: createToken(true),
+  },
 ];
 
 const createFakeNotifications = async () => {
-  const fakeNotificationsObjArr = _.map(fakeNotifications, fakeNotification => {
-    return new Notification(fakeNotification);
-  });
-
-  const promises = _.map(fakeNotificationsObjArr, fakeNotificationsObj => {
-    return fakeNotificationsObj.save();
-  });
-
   try {
-    await Promise.all(promises);
+    // Since this is a new/clean db, we need to build the indexes.
+    await Notification.init();
+    await Notification.create(fakeNotifications);
     logger.info('Added fake notifications.');
   } catch (err) {
     logger.info(`Error adding fake notifications. Details: ${err}`);
