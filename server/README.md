@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/nip10/euromillions-notifications.svg?branch=master)](https://travis-ci.org/nip10/euromillions-notifications)
+# Server
 
+[![Build Status](https://travis-ci.org/nip10/euromillions-notifications.svg?branch=master)](https://travis-ci.org/nip10/euromillions-notifications)
 [![codecov](https://codecov.io/gh/nip10/euromillions-notifications/branch/master/graph/badge.svg)](https://codecov.io/gh/nip10/euromillions-notifications)
 
-# Server
 
 ## Stack
 
