@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from './../app';
-import Notification from './../models/notification';
+import Notification, { INotification } from './../models/notification';
 import { setupDb, stopDb, fakeNotifications } from '../utils/test_db_setup';
 import { ERROR, VALIDATION } from './../utils/constants'
 
@@ -159,12 +159,21 @@ describe('PATCH /editnotification', () => {
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
     expect(res.body.error).toBe(VALIDATION.TOKEN_INVALID);
+    done();
+  });
+  it('should respond with 400 and an error when the token is invalid (expired)', async (done) => {
+    const token = fakeNotifications[4].token.value;
+    const minPrize = 100;
+    const res = await request(app)
+      .patch('/api/editnotification')
+      .send({ token, minPrize })
+      .set('Accept', 'application/json');
+    expect(res).toBeDefined();
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
     expect(res.body.error).toBe(ERROR.TOKEN_EXPIRED);
     done();
   });
-  // it('should respond with 400 and an error when the token is invalid (expired)', (done) => {
-  //   done();
-  // });
 });
 
 describe('POST /deletenotification', () => {
@@ -230,7 +239,15 @@ describe('DELETE /deletenotification/:token', () => {
     expect(res.body.error).toBe(VALIDATION.TOKEN_INVALID);
     done();
   });
-  // it('should respond with 400 and an error when the token is invalid (expired)', (done) => {
-  //   done();
-  // });
+  it('should respond with 400 and an error when the token is invalid (expired)', async (done) => {
+    const token = fakeNotifications[4].token.value;
+    const res = await request(app)
+      .delete(`/api/deletenotification/${token}`)
+      .set('Accept', 'application/json');
+      expect(res).toBeDefined();
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBeDefined();
+      expect(res.body.error).toBe(ERROR.TOKEN_EXPIRED);
+      done();
+  });
 });
