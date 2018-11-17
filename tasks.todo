@@ -97,6 +97,10 @@
             await mongoose.connection.dropDatabase();
         This does NOT work:
             await mongoose.connection.db.dropDatabase();
+☐ Show coverage on github
+☐ Show build status on github
+☐ Add env vars to Travis
+    Tests are failing because they are undefined
 
 Info:
   - rss-parser
