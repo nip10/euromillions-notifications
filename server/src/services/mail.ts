@@ -7,10 +7,10 @@ const { EMAIL_SENDGRID_API_KEY, EMAIL_ADDRESS, NODE_ENV } = process.env;
 
 sgMail.setApiKey(EMAIL_SENDGRID_API_KEY);
 
-const isDev = NODE_ENV === 'development';
+const isProd = NODE_ENV === 'production';
 
 export function sendWelcomeEmail(to: string, variables: any) {
-  if (isDev) { return Promise.resolve(); }
+  if (!isProd) { return Promise.resolve(); }
   const msg = {
     to,
     from: EMAIL_ADDRESS,
