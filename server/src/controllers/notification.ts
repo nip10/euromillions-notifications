@@ -2,8 +2,17 @@ import _ from 'lodash';
 import uuidv4 from 'uuid/v4';
 import { Request, Response } from 'express';
 import Notification, { INotificationDocument } from '../models/notification';
-import { sendWelcomeEmail } from '../services/mail';
-import { ERROR, VALIDATION } from './../utils/constants';
+import { sendWelcomeEmail, sendDeleteEmail, sendEditEmail } from '../services/mail';
+import { ERROR, VALIDATION, TOKEN_DURATION_IN_DAYS } from './../utils/constants';
+
+function generateToken() {
+  const dt = new Date();
+  dt.setDate(dt.getDate() + TOKEN_DURATION_IN_DAYS);
+  return {
+    value: uuidv4(),
+    expiresAt: dt,
+  }
+}
 
 export function sayHello(req: Request, res: Response) {
   return res.json({ message: 'Hello' });
@@ -14,8 +23,6 @@ export async function createNotification(req: Request, res: Response) {
   const { notificationObj }: {notificationObj: INotificationDocument} = res.locals;
   try {
     await Notification.create(notificationObj);
-    res.sendStatus(201);
-    // No 'return' here because we still need to send the email later
   } catch (e) {
     if (e.code === 11000) {
       return res.status(400).json({ error: ERROR.EMAIL_DUPLICATE });
@@ -25,6 +32,7 @@ export async function createNotification(req: Request, res: Response) {
   }
   try {
     await sendWelcomeEmail(notificationObj.email, { minPrize: notificationObj.minPrize });
+    res.sendStatus(201);
   } catch (e) {
     return res.status(500).json({ error: ERROR.EMAIL_SEND });
   }
@@ -32,21 +40,20 @@ export async function createNotification(req: Request, res: Response) {
 
 export async function sendEditNotificationEmail(req: Request, res: Response) {
   // Get the email from the previous middleware
-  const { email } = res.locals;
+  const { email, minPrize } = res.locals.notificationObj;
   // Generate a new token
-  const dt = new Date();
-  dt.setDate(dt.getDate() + 1);
-  const token = {
-    value: uuidv4(),
-    expiresAt: dt,
-  }
+  const token = generateToken();
   try {
     // Update the user document with new token
     await Notification.updateOne({ email }, { token });
-    // TODO: Send an "edit" email with the token
-    return res.sendStatus(200);
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
+  }
+  try {
+    await sendEditEmail(email, { minPrize, token });
+    return res.sendStatus(200);
+  } catch (e) {
+    return res.status(500).json({ error: ERROR.EMAIL_SEND });
   }
 }
 
@@ -63,7 +70,7 @@ export async function editNotification(req: Request, res: Response) {
     return res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
   }
   const dt = new Date();
-  dt.setDate(dt.getDate() + 1);
+  dt.setDate(dt.getDate() + TOKEN_DURATION_IN_DAYS);
   // Check if token has expired
   if (notificationObj.token.expiresAt.getDate() < dt.getDate()) {
     return res.status(400).json({ error: ERROR.TOKEN_EXPIRED });
@@ -71,7 +78,7 @@ export async function editNotification(req: Request, res: Response) {
   // Update minPrize and remove token
   try {
     await Notification.updateOne({ email: notificationObj.email }, { minPrize, token: null });
-    return res.sendStatus(200);
+    return res.redirect('/editnotification');
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
   }
@@ -81,19 +88,18 @@ export async function sendDeleteNotificationEmail(req: Request, res: Response) {
   // Get the email from the previous middleware
   const { email } = res.locals;
   // Generate a new token
-  const dt = new Date();
-  dt.setDate(dt.getDate() + 1);
-  const token = {
-    value: uuidv4(),
-    expiresAt: dt,
-  }
+  const token = generateToken();
   try {
     // Update the user document with new token
     await Notification.updateOne({ email }, { token });
-    // TODO: Send a "delete" email with the token
-    return res.sendStatus(200);
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
+  }
+  try {
+    await sendDeleteEmail(email, { token });
+    return res.sendStatus(200);
+  } catch (e) {
+    return res.status(500).json({ error: ERROR.EMAIL_SEND });
   }
 }
 
@@ -110,7 +116,7 @@ export async function deleteNotification(req: Request, res: Response) {
     return res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
   }
   const dt = new Date();
-  dt.setDate(dt.getDate() + 1);
+  dt.setDate(dt.getDate() + TOKEN_DURATION_IN_DAYS);
   // Check if token has expired
   if (notificationObj.token.expiresAt.getDate() < dt.getDate()) {
     return res.status(400).json({ error: ERROR.TOKEN_EXPIRED });
@@ -118,7 +124,7 @@ export async function deleteNotification(req: Request, res: Response) {
   // Delete notification
   try {
     await Notification.deleteOne({ email: notificationObj.email });
-    return res.sendStatus(200);
+    return res.redirect('/deletenotification');
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
   }

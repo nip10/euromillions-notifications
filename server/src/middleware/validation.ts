@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import _ from 'lodash';
 import { Request, Response, NextFunction } from 'express';
-import { VALIDATION } from './../utils/constants';
+import { VALIDATION, PRIZE } from './../utils/constants';
 
 export function validateCreateNotification(req: Request, res: Response, next: NextFunction) {
   const { email } = req.body;
@@ -9,7 +9,7 @@ export function validateCreateNotification(req: Request, res: Response, next: Ne
 
   const schema = {
     email: Joi.string().email().required(),
-    minPrize: Joi.number().integer().min(15).max(300).required(),
+    minPrize: Joi.number().integer().min(PRIZE.MIN).max(PRIZE.MAX).required(),
   };
 
   const { error, value } = Joi.validate({ email, minPrize }, schema);
@@ -43,13 +43,37 @@ export function validateEmail(req: Request, res: Response, next: NextFunction) {
   }
 };
 
-export function validateEditNotification(req: Request, res: Response, next: NextFunction) {
-  const { token } = req.body;
+export function validateEditNotificationRequest(req: Request, res: Response, next: NextFunction) {
+  const { email } = req.body;
   const minPrize = Number.parseInt(req.body.minPrize, 10);
 
   const schema = {
+    email: Joi.string().email().required(),
+    minPrize: Joi.number().integer().min(PRIZE.MIN).max(PRIZE.MAX).required(),
+  };
+
+  const { error, value } = Joi.validate({ email, minPrize }, schema);
+
+  if (error) {
+    if (error.details[0].path[0] === 'email') {
+      res.status(400).json({ error: VALIDATION.EMAIL_INVALID({ email: value.email }) });
+    } else if (error.details[0].path[0] === 'minPrize') {
+      res.status(400).json({ error: VALIDATION.MINPRIZE_INVALID });
+    }
+  } else {
+    // Send the notification object to the next middleware
+    res.locals.notificationObj = { email, minPrize };
+    next();
+  }
+}
+
+export function validateEditNotification(req: Request, res: Response, next: NextFunction) {
+  const { token } = req.params;
+  const minPrize = Number.parseInt(req.params.minPrize, 10);
+
+  const schema = {
     token: Joi.string().required(),
-    minPrize: Joi.number().integer().min(15).max(300).required()
+    minPrize: Joi.number().integer().min(PRIZE.MIN).max(PRIZE.MAX).required(),
   };
 
   const { error, value } = Joi.validate({ token, minPrize }, schema);

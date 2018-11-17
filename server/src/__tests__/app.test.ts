@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from './../app';
 import Notification, { INotification } from './../models/notification';
 import { setupDb, stopDb, fakeNotifications } from '../utils/test_db_setup';
-import { ERROR, VALIDATION } from './../utils/constants'
+import { ERROR, VALIDATION, PRIZE } from './../utils/constants'
 
 beforeAll(async (done) => {
   await setupDb();
@@ -36,7 +36,6 @@ describe('POST /createnotification', () => {
     expect(res).toBeDefined();
     expect(res.status).toBe(201);
     done();
-    // TODO: Add a Sinon spy on the sendWelcomeEmail function ?
   });
   it('should respond with 400 and a validation error when the email is invalid', async (done) => {
     const notificationObj = {
@@ -82,8 +81,9 @@ describe('POST /createnotification', () => {
 describe('POST /editnotification', () => {
   it('should create a token, save it to the db, and send an email, for editing a notification', async (done) => {
     const email = fakeNotifications[1].email;
+    const minPrize = 100;
     const res = await request(app).post('/api/editnotification')
-      .send({ email })
+      .send({ email, minPrize })
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
@@ -94,13 +94,13 @@ describe('POST /editnotification', () => {
     expect(user.token.value.length).toBeGreaterThan(10);
     expect(user).toHaveProperty('token.expiresAt');
     expect(Object.prototype.toString.call(user.token.expiresAt)).toBe('[object Date]');
-    // TODO: Add a Sinon spy on the sendEmail function ?
     done();
   });
   it('should respond with 400 and a validation error when email is invalid', async (done) => {
     const email = 'not_a_valid_email';
+    const minPrize = 100;
     const res = await request(app).post('/api/editnotification')
-      .send({ email })
+      .send({ email, minPrize })
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -108,26 +108,48 @@ describe('POST /editnotification', () => {
     expect(res.body.error).toBe(VALIDATION.EMAIL_INVALID({ email }));
     done();
   });
+  it('should respond with 400 and a validation error when minPrize is above max', async (done) => {
+    const email = 'validEmail@mail.com';
+    const minPrize = PRIZE.MAX + 10;
+    const res = await request(app).post('/api/editnotification')
+      .send({ email, minPrize })
+      .set('Accept', 'application/json');
+    expect(res).toBeDefined();
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
+    expect(res.body.error).toBe(VALIDATION.MINPRIZE_INVALID);
+    done();
+  });
+  it('should respond with 400 and a validation error when minPrize is below min', async (done) => {
+    const email = 'validEmail@mail.com';
+    const minPrize = PRIZE.MIN - 10;
+    const res = await request(app).post('/api/editnotification')
+      .send({ email, minPrize })
+      .set('Accept', 'application/json');
+    expect(res).toBeDefined();
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
+    expect(res.body.error).toBe(VALIDATION.MINPRIZE_INVALID);
+    done();
+  });
 });
 
-describe('PATCH /editnotification', () => {
+describe('GET /editnotification/:token/:minPrize', () => {
   it('should update the minPrize', async (done) => {
     const token = fakeNotifications[0].token.value;
     const minPrize = 123;
     const res = await request(app)
-      .patch('/api/editnotification')
-      .send({ token, minPrize })
+      .get(`/api/editnotification/${token}/${minPrize}`)
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(302);
     done();
   });
   it('should respond with 400 and a validation error when token is invalid', async (done) => {
     const token: null = null;
     const minPrize = 123;
     const res = await request(app)
-      .patch('/api/editnotification')
-      .send({ token, minPrize })
+      .get(`/api/editnotification/${token}/${minPrize}`)
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -139,8 +161,7 @@ describe('PATCH /editnotification', () => {
     const token = fakeNotifications[0].token.value;
     const minPrize = 'not_a_valid_minprize';
     const res = await request(app)
-      .patch('/api/editnotification')
-      .send({ token, minPrize })
+      .get(`/api/editnotification/${token}/${minPrize}`)
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -152,8 +173,7 @@ describe('PATCH /editnotification', () => {
     const token = 'not_the_real_token';
     const minPrize = 123;
     const res = await request(app)
-      .patch('/api/editnotification')
-      .send({ token, minPrize })
+      .get(`/api/editnotification/${token}/${minPrize}`)
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -165,8 +185,7 @@ describe('PATCH /editnotification', () => {
     const token = fakeNotifications[4].token.value;
     const minPrize = 100;
     const res = await request(app)
-      .patch('/api/editnotification')
-      .send({ token, minPrize })
+      .get(`/api/editnotification/${token}/${minPrize}`)
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -191,7 +210,6 @@ describe('POST /deletenotification', () => {
     expect(user.token.value.length).toBeGreaterThan(10);
     expect(user).toHaveProperty('token.expiresAt');
     expect(Object.prototype.toString.call(user.token.expiresAt)).toBe('[object Date]');
-    // TODO: Add a Sinon spy on the sendEmail function ?
     done();
   });
   it('validation: should respond with 400 and a validation error when email is invalid', async (done) => {
@@ -207,20 +225,20 @@ describe('POST /deletenotification', () => {
   });
 });
 
-describe('DELETE /deletenotification/:token', () => {
+describe('GET /deletenotification/:token', () => {
   it('should delete a notification', async (done) => {
     const token = fakeNotifications[3].token.value;
     const res = await request(app)
-      .delete(`/api/deletenotification/${token}`)
+      .get(`/api/deletenotification/${token}`)
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(302);
     done();
   });
   it('should respond with 400 and a validation error when token is invalid', async (done) => {
     const token: null = null;
     const res = await request(app)
-      .delete(`/api/deletenotification/${token}`)
+      .get(`/api/deletenotification/${token}`)
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -231,7 +249,7 @@ describe('DELETE /deletenotification/:token', () => {
   it('should respond with 400 and an error when the token is invalid (doesnt exist)', async (done) => {
     const token = 'not_the_real_token';
     const res = await request(app)
-      .delete(`/api/deletenotification/${token}`)
+      .get(`/api/deletenotification/${token}`)
       .set('Accept', 'application/json');
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -242,7 +260,7 @@ describe('DELETE /deletenotification/:token', () => {
   it('should respond with 400 and an error when the token is invalid (expired)', async (done) => {
     const token = fakeNotifications[4].token.value;
     const res = await request(app)
-      .delete(`/api/deletenotification/${token}`)
+      .get(`/api/deletenotification/${token}`)
       .set('Accept', 'application/json');
       expect(res).toBeDefined();
       expect(res.status).toBe(400);

@@ -10,6 +10,7 @@ import {
 import {
   validateEmail,
   validateCreateNotification,
+  validateEditNotificationRequest,
   validateEditNotification,
   validateDeleteNotification,
 } from '../middleware/validation';
@@ -18,9 +19,9 @@ const router = express.Router();
 
 router.get('/', sayHello);
 router.post('/createnotification', validateCreateNotification, createNotification);
-router.post('/editnotification', validateEmail, sendEditNotificationEmail);
-router.patch('/editnotification', validateEditNotification, editNotification);
+router.post('/editnotification', validateEditNotificationRequest, sendEditNotificationEmail);
+router.get('/editnotification/:token/:minPrize', validateEditNotification, editNotification);
 router.post('/deletenotification', validateEmail, sendDeleteNotificationEmail);
-router.delete('/deletenotification/:token', validateDeleteNotification, deleteNotification);
+router.get('/deletenotification/:token', validateDeleteNotification, deleteNotification);
 
 export default router;

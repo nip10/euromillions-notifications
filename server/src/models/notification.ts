@@ -1,8 +1,9 @@
 import mongoose from '../services/db';
+import { PRIZE } from '../utils/constants';
 
 export interface INotification {
   email: string,
-  minPrize: number,
+  minPrize: number, // TODO: Use ts to min/max ??
   token?: {
     value: string,
     expiresAt: Date,
@@ -20,6 +21,8 @@ const NotificationSchema = new mongoose.Schema({
   minPrize: {
     type: Number,
     required: true,
+    min: PRIZE.MIN,
+    max: PRIZE.MAX,
   },
   token: {
     type: {
