@@ -1,25 +1,32 @@
 {
-  "name": "euromillions-notifications-client",
-  "version": "1.0.0",
-  "main": "index.js",
-  "author": "Diogo Cardoso <tuniq@live.com.pt>",
-  "license": "MIT",
-  "scripts": {
-    "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html"
-  },
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "cross-env": "^5.2.0",
-    "parcel-bundler": "^1.10.3"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "prettier": "^1.14.3",
-    "sass": "^1.14.3",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-scripts": "2.1.1",
     "typescript": "^3.1.6"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.9",
+    "@types/react": "^16.7.6",
+    "@types/react-dom": "^16.0.9"
   }
 }
