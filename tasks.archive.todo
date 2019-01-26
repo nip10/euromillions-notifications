@@ -1,3 +1,4 @@
+✔ Add min-max ranges to the html input for minPrize @done(19-01-26 01:54)
 ✔ Add model @done(18-11-06 11:47)
   Schema:
     - Email (user email)
