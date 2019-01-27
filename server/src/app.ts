@@ -2,21 +2,43 @@ import express, { Response, Request, NextFunction, ErrorRequestHandler} from 'ex
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
+import cors, { CorsOptions } from 'cors';
 
 import routes from './routes/notification';
 
+import updateNotifications from './scripts/fetchprize';
+
 dotenv.config({ path: '.env' });
-const { NODE_ENV } = process.env;
+const { NODE_ENV, CLIENT_DEV_PORT, BASE_URL } = process.env;
 const isDev = NODE_ENV === 'development';
 
 const app = express();
+
+const whitelist = [
+  `http://localhost:${CLIENT_DEV_PORT}`,
+  `https://${BASE_URL}`,
+  `https://www.${BASE_URL}`,
+];
+const corsOptions: CorsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}
+
+app.use(cors(corsOptions));
 
 app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api', routes);
+app.use('/', routes);
+
+updateNotifications.start();
 
 // Handle 404s
 app.use((req: Request, res: Response) => {
