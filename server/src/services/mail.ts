@@ -51,4 +51,3 @@ export function sendDeleteEmail(to: string, variables: any) {
   };
   return sgMail.send(msg);
 }
-
