@@ -6,7 +6,7 @@ import cors, { CorsOptions } from 'cors';
 
 import routes from './routes/notification';
 
-import updateNotifications from './scripts/fetchprize';
+import updateNotifications from './scripts/updatenotifications';
 
 dotenv.config({ path: '.env' });
 const { NODE_ENV, CLIENT_DEV_PORT, BASE_URL } = process.env;
