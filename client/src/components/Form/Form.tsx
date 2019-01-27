@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import './Form.css';
 
 const isDev = process.env.NODE_ENV === "development";
-const API_BASE_URL = isDev ? "http://localhost:3005/" : "https://www.api.sh.diogocardoso.me/";
+const API_BASE_URL = isDev ? "http://localhost:3001" : "https://www.api.em.diogocardoso.me";
 
 interface IFormState {
   email: string,
@@ -32,7 +32,7 @@ export default class Form extends React.Component<{}, IFormState> {
     const email = this.state.email;
     const minPrize = this.state.minPrize;
     try {
-      const res: AxiosResponse = await Axios.post(API_BASE_URL, { email, minPrize });
+      const res: AxiosResponse = await Axios.post(`${API_BASE_URL}/createnotification`, { email, minPrize });
       console.log('Success! Notification created.');
       // this.props.errorHandler('');
       // this.setState({ ...this.state, validationError: false });
