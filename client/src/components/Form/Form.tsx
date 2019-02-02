@@ -57,8 +57,10 @@ export default class Form extends React.Component<{}, IFormState> {
     return (
       <form onSubmit={this.handleSubmit}>
         <input name="email" className={emailInputClass} type="email" value={this.state.email} onChange={this.handleChange} placeholder="Your email address" required/>
-        <input name="minPrize" className={minprizeInputClass} type="number" value={this.state.minPrize} onChange={this.handleChange} min={15} max={300} required></input>
-        <span className="form-input-minprize-currency">M€</span>
+        <div className="form-minprize-container">
+          <input name="minPrize" className={minprizeInputClass} type="number" value={this.state.minPrize} onChange={this.handleChange} min={15} max={300} required></input>
+          <span className="form-input-minprize-currency">M€</span>
+        </div>
         <button className="form-submit-url" type="submit"> Notify Me </button>
       </form>
     );

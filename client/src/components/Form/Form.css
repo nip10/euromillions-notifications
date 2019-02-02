@@ -12,8 +12,11 @@ form {
   box-sizing: border-box;
 }
 
+.form-minprize-container {
+  display: flex;
+}
+
 .form-input-minprize {
-  width: 100%;
   max-width: 7rem;
   height: 2rem;
   border: none;
@@ -45,11 +48,26 @@ form {
   min-width: 7rem;
 }
 
-@media (max-width : 768px) {
-  .form-input-url {
+@media (max-width: 768px) {
+  form {
     display: block;
-    width: 100%;
   }
+
+  .form-input-email {
+    display: block;
+    min-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .form-input-minprize {
+    width: 5rem;
+  }
+
+  .form-minprize-container {
+    display: flex;
+    justify-content: center;
+  }
+
   .form-submit-url {
     display: block;
     margin: 1rem auto 0 auto;
