@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
 import './Form.css';
@@ -12,12 +12,13 @@ interface IFormState {
   // validationError: boolean,
 }
 
-// interface IFormProps {
-//   errorHandler: (message: string) => void,
-// }
+interface IFormProps {
+  type: string, // TODO: Change to ENUM
+  // errorHandler: (message: string) => void,
+}
 
-export default class Form extends React.Component<{}, IFormState> {
-  constructor(props: {}) {
+export default class Form extends Component<IFormProps, IFormState> {
+  constructor(props: IFormProps) {
     super(props);
     // this.state = { email: '', minPrize: 0, validationError: false };
     this.state = { email: '', minPrize: 0 };
@@ -47,6 +48,15 @@ export default class Form extends React.Component<{}, IFormState> {
     }
   }
 
+  private renderFormButton = () => {
+    const formType = this.props.type;
+    let buttonText;
+    if (formType === 'add') buttonText = 'Notify Me';
+    if (formType === 'edit') buttonText = 'Update Notification';
+    if (formType === 'delete') buttonText = 'Delete Notification';
+    return <button className="form-submit-url" type="submit"> {buttonText} </button>;
+  }
+
   public render() {
     const emailInputClass = classNames('form-input-email', {
       // 'form-input-url-invalid': this.state.validationError,
@@ -57,11 +67,13 @@ export default class Form extends React.Component<{}, IFormState> {
     return (
       <form onSubmit={this.handleSubmit}>
         <input name="email" className={emailInputClass} type="email" value={this.state.email} onChange={this.handleChange} placeholder="Your email address" required/>
-        <div className="form-minprize-container">
-          <input name="minPrize" className={minprizeInputClass} type="number" value={this.state.minPrize} onChange={this.handleChange} min={15} max={300} required></input>
-          <span className="form-input-minprize-currency">M€</span>
-        </div>
-        <button className="form-submit-url" type="submit"> Notify Me </button>
+        {this.props.type !== 'delete' &&
+          <div className="form-minprize-container">
+            <input name="minPrize" className={minprizeInputClass} type="number" value={this.state.minPrize} onChange={this.handleChange} min={15} max={300} required></input>
+            <span className="form-input-minprize-currency">M€</span>
+          </div>
+        }
+        {this.renderFormButton()}
       </form>
     );
   }

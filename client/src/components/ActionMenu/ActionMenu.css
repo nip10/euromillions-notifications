@@ -1,0 +1,15 @@
+.actionmenu-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.actionmenu-container span {
+  background-color: hsla(0,0%,100%,.15);
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.actionmenu-container span:first-child {
+  margin-right: 1rem;
+}
