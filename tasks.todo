@@ -1,3 +1,8 @@
+☐ Add error handling
+    ☐ When creating a notification
+    ☐ When editing a notification
+    ☐ When deleting a notification
+☐ Change form types to enum
 ☐ Consider sending the welcome email in the background and allow the process to continue
     Since this email is just for saying welcome and basic information, it's not critical if the user
     doesn't receive it ?
