@@ -1,18 +1,9 @@
 import _ from 'lodash';
-import uuidv4 from 'uuid/v4';
 import { Request, Response } from 'express';
 import Notification, { INotificationDocument } from '../models/notification';
 import { sendWelcomeEmail, sendDeleteEmail, sendEditEmail } from '../services/mail';
-import { ERROR, VALIDATION, TOKEN_DURATION_IN_DAYS } from './../utils/constants';
-
-function generateToken() {
-  const dt = new Date();
-  dt.setDate(dt.getDate() + TOKEN_DURATION_IN_DAYS);
-  return {
-    value: uuidv4(),
-    expiresAt: dt,
-  }
-}
+import { ERROR, VALIDATION, TOKEN_DURATION_IN_DAYS } from '../utils/constants';
+import { generateToken } from '../utils/misc';
 
 export function sayHello(req: Request, res: Response) {
   return res.json({ message: 'Hello' });
