@@ -1,3 +1,10 @@
+☐ Move routes from server to client
+    It doesn't make sense to have the edit/delete get requests, since they are on the api and not on the client side
+    Run validation on the url itself, assume the email and token is valid, and then validate server side
+
+    To use the form itself, the router needs to pass in props for formType
+    Also, the formtype needs to be set (in state) before mounting the component
+☐ Add success messages
 ☐ Add error handling
     ☐ When creating a notification
     ☐ When editing a notification
