@@ -31,7 +31,7 @@ export async function createNotification(req: Request, res: Response) {
 
 export async function sendEditNotificationEmail(req: Request, res: Response) {
   // Get the email from the previous middleware
-  const { email, minPrize } = res.locals.notificationObj;
+  const { email, minPrize }: { email: string, minPrize: number } = res.locals.notificationObj;
   // Generate a new token
   const token = generateToken();
   try {
@@ -49,8 +49,8 @@ export async function sendEditNotificationEmail(req: Request, res: Response) {
 }
 
 export async function editNotification(req: Request, res: Response) {
-  const { token, minPrize } = res.locals.editNotificationObj;
-  let notificationObj;
+  const { token, minPrize }: { token: string, minPrize: number } = res.locals.editNotificationObj;
+  let notificationObj: INotificationDocument;
   try {
     // Check if token is associated with an account
     notificationObj = await Notification.findOne({ 'token.value': token });
@@ -77,7 +77,7 @@ export async function editNotification(req: Request, res: Response) {
 
 export async function sendDeleteNotificationEmail(req: Request, res: Response) {
   // Get the email from the previous middleware
-  const { email } = res.locals;
+  const { email }: { email: string } = res.locals;
   // Generate a new token
   const token = generateToken();
   try {
@@ -95,8 +95,8 @@ export async function sendDeleteNotificationEmail(req: Request, res: Response) {
 }
 
 export async function deleteNotification(req: Request, res: Response) {
-  const { token } = res.locals.deleteNotificationObj;
-  let notificationObj;
+  const { token }: { token: string } = res.locals.deleteNotificationObj;
+  let notificationObj: INotificationDocument;
   try {
     // Check if token is associated with an account
     notificationObj = await Notification.findOne({ 'token.value': token });
