@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 import Axios, { AxiosResponse } from 'axios';
 import classNames from 'classnames';
-import './Form.css';
+import './DeleteForm.css';
 
 const isDev = process.env.NODE_ENV === "development";
 const API_BASE_URL = isDev ? "http://localhost:3001" : "https://www.api.em.diogocardoso.me";
 
-interface IFormState {
+interface IDeleteFormState {
   email: string,
-  minPrize: number,
   // validationError: boolean,
 }
 
-interface IFormProps {
-  type: string, // TODO: Change to ENUM
-  // errorHandler: (message: string) => void,
-}
+// interface IFormProps {
+//   errorHandler: (message: string) => void,
+// }
 
-export default class Form extends Component<IFormProps, IFormState> {
-  constructor(props: IFormProps) {
+export default class DeleteForm extends Component<{}, IDeleteFormState> {
+  constructor(props: {}) {
     super(props);
     // this.state = { email: '', minPrize: 0, validationError: false };
-    this.state = { email: '', minPrize: 0 };
+    this.state = { email: '' };
   }
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,10 +29,9 @@ export default class Form extends Component<IFormProps, IFormState> {
   private handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email = this.state.email;
-    const minPrize = this.state.minPrize;
     try {
-      const res: AxiosResponse = await Axios.post(`${API_BASE_URL}/createnotification`, { email, minPrize });
-      console.log('Success! Notification created.');
+      const res: AxiosResponse = await Axios.post(`${API_BASE_URL}/deletenotification`, { email });
+      console.log('Success! Notification deleted.'); // TODO: Replace with logger
       // this.props.errorHandler('');
       // this.setState({ ...this.state, validationError: false });
     } catch (error) {
@@ -48,32 +45,14 @@ export default class Form extends Component<IFormProps, IFormState> {
     }
   }
 
-  private renderFormButton = () => {
-    const formType = this.props.type;
-    let buttonText;
-    if (formType === 'add') buttonText = 'Notify Me';
-    if (formType === 'edit') buttonText = 'Update Notification';
-    if (formType === 'delete') buttonText = 'Delete Notification';
-    return <button className="form-submit-url" type="submit"> {buttonText} </button>;
-  }
-
   public render() {
     const emailInputClass = classNames('form-input-email', {
-      // 'form-input-url-invalid': this.state.validationError,
-    });
-    const minprizeInputClass = classNames('form-input-minprize', {
       // 'form-input-url-invalid': this.state.validationError,
     });
     return (
       <form onSubmit={this.handleSubmit}>
         <input name="email" className={emailInputClass} type="email" value={this.state.email} onChange={this.handleChange} placeholder="Your email address" required/>
-        {this.props.type !== 'delete' &&
-          <div className="form-minprize-container">
-            <input name="minPrize" className={minprizeInputClass} type="number" value={this.state.minPrize} onChange={this.handleChange} min={15} max={300} required></input>
-            <span className="form-input-minprize-currency">M€</span>
-          </div>
-        }
-        {this.renderFormButton()}
+        <button className="form-submit-url" type="submit"> Notify me !</button>
       </form>
     );
   }
