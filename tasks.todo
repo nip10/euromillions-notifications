@@ -1,3 +1,9 @@
+☐ Replace any's
+☐ Simplify pages
+    There's a lot of duplicated code
+    Move the common stuff (title, github corner) to App and render children there
+    Pass the components as the children
+☐ Move res.locals to req.locals ?
 ☐ Move routes from server to client
     It doesn't make sense to have the edit/delete get requests, since they are on the api and not on the client side
     Run validation on the url itself, assume the email and token is valid, and then validate server side
