@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import sgMail from '@sendgrid/mail';
 import { URL } from '../utils/constants';
+import { IToken } from '../utils/misc';
 
 dotenv.config();
 const { EMAIL_SENDGRID_API_KEY, EMAIL_ADDRESS, NODE_ENV } = process.env;
@@ -9,7 +10,20 @@ sgMail.setApiKey(EMAIL_SENDGRID_API_KEY);
 
 const isProd = NODE_ENV === 'production';
 
-export function sendWelcomeEmail(to: string, variables: any) {
+interface IMailWelcome {
+  minPrize: number,
+}
+
+interface IMailEdit {
+  minPrize: number,
+  token: IToken,
+}
+
+interface IMailDelete {
+  token: IToken,
+}
+
+export function sendWelcomeEmail(to: string, variables: IMailWelcome) {
   if (!isProd) { return Promise.resolve(); }
   const msg = {
     to,
@@ -23,14 +37,14 @@ export function sendWelcomeEmail(to: string, variables: any) {
   return sgMail.send(msg);
 }
 
-export function sendEditEmail(to: string, variables: any) {
+export function sendEditEmail(to: string, variables: IMailEdit) {
   if (!isProd) { return Promise.resolve(); }
   const msg = {
     to,
     from: EMAIL_ADDRESS,
     templateId: 'd-5d540038d0974581968265d357e71b4d',
     dynamic_template_data: {
-      minPrizeUpdated: variables.minprize,
+      minPrizeUpdated: variables.minPrize,
       updateUrl: URL.UPDATE({ token: variables.token }),
       indexUrl: URL.INDEX,
     }
@@ -38,7 +52,7 @@ export function sendEditEmail(to: string, variables: any) {
   return sgMail.send(msg);
 }
 
-export function sendDeleteEmail(to: string, variables: any) {
+export function sendDeleteEmail(to: string, variables: IMailDelete) {
   if (!isProd) { return Promise.resolve(); }
   const msg = {
     to,
