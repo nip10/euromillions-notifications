@@ -1,9 +1,9 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
-import app from './app';
-import logger from './utils/logger';
+import app from "./app";
+import logger from "./utils/logger";
 
-dotenv.config({ path: '.env' });
+dotenv.config({ path: ".env" });
 const { PORT, NODE_ENV } = process.env;
 
 // Start Express
