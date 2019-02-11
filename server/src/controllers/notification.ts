@@ -4,6 +4,7 @@ import Notification, { INotificationDocument } from '../models/notification';
 import { sendWelcomeEmail, sendDeleteEmail, sendEditEmail } from '../services/mail';
 import { ERROR, VALIDATION, TOKEN_DURATION_IN_DAYS } from '../utils/constants';
 import { generateToken } from '../utils/misc';
+import logger from '../utils/logger';
 
 export function sayHello(req: Request, res: Response) {
   return res.json({ message: 'Hello' });
@@ -23,6 +24,7 @@ export async function createNotification(req: Request, res: Response) {
   }
   try {
     await sendWelcomeEmail(notificationObj.email, { minPrize: notificationObj.minPrize });
+    logger.info(`Created new notification. Details: ${notificationObj.email}, ${notificationObj.minPrize}M.`);
     res.sendStatus(201);
   } catch (e) {
     return res.status(500).json({ error: ERROR.EMAIL_SEND });
@@ -115,6 +117,7 @@ export async function deleteNotification(req: Request, res: Response) {
   // Delete notification
   try {
     await Notification.deleteOne({ email: notificationObj.email });
+    logger.info(`Deleted new notification. Details: ${notificationObj.email}.`);
     return res.redirect('/deletenotification');
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
