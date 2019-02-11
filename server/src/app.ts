@@ -3,10 +3,9 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import cors, { CorsOptions } from 'cors';
-
 import routes from './routes/notification';
-
 import updateNotifications from './scripts/updatenotifications';
+import { ERROR } from './utils/constants';
 
 dotenv.config({ path: '.env' });
 const { NODE_ENV, CLIENT_DEV_PORT, BASE_URL } = process.env;
@@ -49,7 +48,7 @@ app.use((req: Request, res: Response) => {
 // Handle server errors
 app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {
   if (res.headersSent) { return next(err); }
-  return res.status(500).json({ error: isDev ? err : null });
+  return res.status(500).json({ error: isDev ? err : ERROR.SERVER });
 });
 
 export default app;
