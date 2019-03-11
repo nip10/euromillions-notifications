@@ -1,3 +1,17 @@
+✔ Fix prettier not working with ts @done(19-02-11 19:32)
+    I'm dumb and disabled 'format on save'
+✔ Add logger @done(19-02-11 19:26)
+    ✔ Log stuff @done(19-02-11 19:26)
+✔ Add script (cron) @done(19-02-11 19:20)
+    ✔ Run after drafts @done(19-02-11 19:20)
+        ✔ Allow a few hours for the rss to update @done(19-02-11 19:20)
+    ✔ Get email addresses that have a minPrize lower than the current prize @done(19-02-11 19:20)
+    ✔ Send an email to everyone @done(19-02-11 19:20)
+        ✔ Make a template in Sendgrid @done(19-02-11 19:20)
+✔ Create interface for email variables @done(19-02-11 19:01)
+    variables: any
+✘ Move res.locals to req.locals ? @cancelled(19-02-11 18:48)
+✔ Replace any's @done(19-02-11 19:19)
 ✔ Add min-max ranges to the html input for minPrize @done(19-01-26 01:54)
 ✔ Add model @done(18-11-06 11:47)
   Schema:
