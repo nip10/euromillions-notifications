@@ -16,7 +16,7 @@ afterAll(async done => {
 
 describe("GET /", () => {
   it("should respond with Hello", async done => {
-    const res = await request(app).get("/api");
+    const res = await request(app).get("/");
     expect(res).toBeDefined();
     expect(res.status).toBe(200);
     expect(res.body.message).toBe("Hello");
@@ -31,7 +31,7 @@ describe("POST /createnotification", () => {
       minPrize: 100
     };
     const res = await request(app)
-      .post("/api/createnotification")
+      .post("/createnotification")
       .send(notificationObj)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -44,7 +44,7 @@ describe("POST /createnotification", () => {
       minPrize: 100
     };
     const res = await request(app)
-      .post("/api/createnotification")
+      .post("/createnotification")
       .send(notificationObj)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -61,7 +61,7 @@ describe("POST /createnotification", () => {
       minPrize: "not_a_valid_minprize"
     };
     const res = await request(app)
-      .post("/api/createnotification")
+      .post("/createnotification")
       .send(notificationObj)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -73,7 +73,7 @@ describe("POST /createnotification", () => {
   it("should respond with 400 and an error if the email is already registred", async done => {
     const notificationObj = fakeNotifications[1];
     const res = await request(app)
-      .post("/api/createnotification")
+      .post("/createnotification")
       .send(notificationObj)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -89,7 +89,7 @@ describe("POST /editnotification", () => {
     const email = fakeNotifications[1].email;
     const minPrize = 100;
     const res = await request(app)
-      .post("/api/editnotification")
+      .post("/editnotification")
       .send({ email, minPrize })
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -109,7 +109,7 @@ describe("POST /editnotification", () => {
     const email = "not_a_valid_email";
     const minPrize = 100;
     const res = await request(app)
-      .post("/api/editnotification")
+      .post("/editnotification")
       .send({ email, minPrize })
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -122,7 +122,7 @@ describe("POST /editnotification", () => {
     const email = "validEmail@mail.com";
     const minPrize = PRIZE.MAX + 10;
     const res = await request(app)
-      .post("/api/editnotification")
+      .post("/editnotification")
       .send({ email, minPrize })
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -135,7 +135,7 @@ describe("POST /editnotification", () => {
     const email = "validEmail@mail.com";
     const minPrize = PRIZE.MIN - 10;
     const res = await request(app)
-      .post("/api/editnotification")
+      .post("/editnotification")
       .send({ email, minPrize })
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -151,7 +151,7 @@ describe("GET /editnotification/:token/:minPrize", () => {
     const token = fakeNotifications[0].token.value;
     const minPrize = 123;
     const res = await request(app)
-      .get(`/api/editnotification/${token}/${minPrize}`)
+      .get(`/editnotification/${token}/${minPrize}`)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
     expect(res.status).toBe(302);
@@ -161,7 +161,7 @@ describe("GET /editnotification/:token/:minPrize", () => {
     const token: null = null;
     const minPrize = 123;
     const res = await request(app)
-      .get(`/api/editnotification/${token}/${minPrize}`)
+      .get(`/editnotification/${token}/${minPrize}`)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -173,7 +173,7 @@ describe("GET /editnotification/:token/:minPrize", () => {
     const token = fakeNotifications[0].token.value;
     const minPrize = "not_a_valid_minprize";
     const res = await request(app)
-      .get(`/api/editnotification/${token}/${minPrize}`)
+      .get(`/editnotification/${token}/${minPrize}`)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -185,7 +185,7 @@ describe("GET /editnotification/:token/:minPrize", () => {
     const token = "not_the_real_token";
     const minPrize = 123;
     const res = await request(app)
-      .get(`/api/editnotification/${token}/${minPrize}`)
+      .get(`/editnotification/${token}/${minPrize}`)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -197,7 +197,7 @@ describe("GET /editnotification/:token/:minPrize", () => {
     const token = fakeNotifications[4].token.value;
     const minPrize = 100;
     const res = await request(app)
-      .get(`/api/editnotification/${token}/${minPrize}`)
+      .get(`/editnotification/${token}/${minPrize}`)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -211,7 +211,7 @@ describe("POST /deletenotification", () => {
   it("should create a token, save it to the db, and send an email, for deleting a notification", async done => {
     const email = fakeNotifications[2].email;
     const res = await request(app)
-      .post("/api/deletenotification")
+      .post("/deletenotification")
       .send({ email })
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -230,7 +230,7 @@ describe("POST /deletenotification", () => {
   it("validation: should respond with 400 and a validation error when email is invalid", async done => {
     const email = "not_a_valid_email";
     const res = await request(app)
-      .post("/api/deletenotification")
+      .post("/deletenotification")
       .send({ email })
       .set("Accept", "application/json");
     expect(res).toBeDefined();
@@ -245,7 +245,7 @@ describe("GET /deletenotification/:token", () => {
   it("should delete a notification", async done => {
     const token = fakeNotifications[3].token.value;
     const res = await request(app)
-      .get(`/api/deletenotification/${token}`)
+      .get(`/deletenotification/${token}`)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
     expect(res.status).toBe(302);
@@ -254,7 +254,7 @@ describe("GET /deletenotification/:token", () => {
   it("should respond with 400 and a validation error when token is invalid", async done => {
     const token: null = null;
     const res = await request(app)
-      .get(`/api/deletenotification/${token}`)
+      .get(`/deletenotification/${token}`)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -265,7 +265,7 @@ describe("GET /deletenotification/:token", () => {
   it("should respond with 400 and an error when the token is invalid (doesnt exist)", async done => {
     const token = "not_the_real_token";
     const res = await request(app)
-      .get(`/api/deletenotification/${token}`)
+      .get(`/deletenotification/${token}`)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
@@ -276,7 +276,7 @@ describe("GET /deletenotification/:token", () => {
   it("should respond with 400 and an error when the token is invalid (expired)", async done => {
     const token = fakeNotifications[4].token.value;
     const res = await request(app)
-      .get(`/api/deletenotification/${token}`)
+      .get(`/deletenotification/${token}`)
       .set("Accept", "application/json");
     expect(res).toBeDefined();
     expect(res.status).toBe(400);
