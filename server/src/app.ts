@@ -42,7 +42,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", routes);
 
-updateNotifications.start();
+if (NODE_ENV === "production") {
+  updateNotifications.start();
+}
 
 // Handle 404s
 app.use((req: Request, res: Response) => {
