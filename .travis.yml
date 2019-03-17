@@ -1,11 +1,11 @@
 language: node_js
 node_js:
-  - '10'
+  - "10"
 sudo: false
 cache:
   yarn: true
   directories:
-    - 'node_modules'
+    - "node_modules"
 services:
   - mongodb
 script:
@@ -19,6 +19,16 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
 notifications:
   email: false
+deploy:
+  provider: s3
+  access_key_id:
+    secure: "nJjT13i1HqFWLzePAXmkuD61oNrDMWFkLWOvEb1UbUiEGZ1hYaPAl+2UMzEHGcJ/imgiByHWzPEKazBjEusW+X2oLnlTF8P3AVvrRwdkyIJqFSjwZzIcrT6oSUs2c7TRGyv6dB4QdJVAUeOToaVJ/1FIQhX0oi9l4m8JldwHF3m7kqzytPpnpy2JpESrj7tDhrhwzZlw3wkpd/dDzx+BXWrmuo7LnPR8y+rg/Up5h5R1PA/cGXpNUKMvOzY1wwt8Q36tF51gD8r1Pe7pn86y/WsR21i0yuusBHyA2Gyzto4XVZYjANbCY/km5tafxgxhBZ6PzYeb96EM1N74ojBZGWUIeuyybPA6i8hF7CSQQbd4+Z9WewXYSseE//7pp1W3snFgS4uE9tU7SeDnxDuOD3vQUdhLrpT5ySoT7IcQSPHGu4AzicOaoXTdzkmTEFRlINqLicnK3FqGEj28e6JsOQAC8jHDALdh+QGDf9kL4DXGDBU2Ks70B+enpACh8asSRsJAQ94iMcJ1XqqzEMHrBHbSNa7q8TPxHQhMuLHuOxyHblF5YI5W/FpfG3S+8MGyEpsnn3/Ey1qxdZ3HPny5+tDVcpcJv42tHcV0soBw5ezLLS7a8UVoDbp9gh6YhD2IWrzmVXVqD+XF8KxLW40KgNll1w4djg//7p8mngmzzjQ="
+  secret_access_key:
+    secure: "kN3qpzg0G60z/sU4BD5ihM61/FpDzDErcJbazHFsk3+p6EnPDvwTQccRO54lYEn8DbsN4DG+x7s/Ip70fKc86z4qHdFmKv1SFHMgLw4OgdOK71SSLru2UpFy/YaaDhHSU1acMk/blV+3b9oJEJof+SMcO/gVDr5xMnxqahBhv9Z9FBXPUG61+WpGM7+dzavYc/DAEiMKsjZvIPtUFXYWyszPrvu1DN9MSGjVC42saueBUkhibReSfGpFxeRiFOCpVK+olcMLukYYLMEA7DqotxSz5oevkrvd6AGn49NXyJkd8Kvk3LVp9RmbqGJKB488G7VQoEghdN3KnHwMOj3sxCzB8lp1lGcvrHRW27sM00cCUlSdLMKHonTcfcSHyqzbC3Cu62iqW2CDgCsvjm6QdhGHG9/4ncDbjGRPpItEelCDcWlckS4NaF1k3o2PJBnTRQqVe9xkS9QmNJeNUEpTQPMMOCrJCUrsKZlOScOVR6qYdIIVHW0s7WTnag9Sf0b/QjBgf32i3JSq5NOqcnmqlOTvHy6/k89Mzltz9CIvkT6492IJ8X8uF3ZBmMAEuiGNek+QKSyP4fjj1hYjvyZTQhQhK5OPyc/zXuh14XI3UWxR4zQ88Z78zKCuS2zTG+84sn6NAW2HH99uuYIRGLpb6eXnrrsHUld2lAhq4oPlt2A="
+  bucket: euronotify.diogocardoso.me
+  skip_cleanup: true
+  region: eu-west-2
+  local_dir: build
 env:
   global:
     - secure: "IcUdzQ0s0b5W9r4EIXkOuWDp0T1Tq0NHqTaC0+YAyoBxjR1oOfvug8JJ+0+94jbwXa4HqlNw8Ou+ydJgiVJCmiG86P7EDTe3bujpzkcppRsL1iJaCg4M7hLJov/8QV8C0c39olfy/m83DnerKG7qldikzC8q+X5UtRkfHE4c5oDFIeMH6lM1F0+sYm1p+fZFY+qJW2vhMjaATQp5nU1A8K70mZyzDl7RpuevUGsEnBpv4EwTUrjev0R0QpFQMQ3aniryIXybC7HzCdbf1NhiOYVxQFGN3SznVgnqpGbfKlWJiLIauL/PHUx1GCWElRJV3cEOLgiiR2FoA9B33QB02jRQ4wyxONtvUCUOXT938efUtBYkr2xgFJwQn97UOdKzkGBwlQukDfMY9nFBksHhwmkr9pSX87cL17WLuoYhV8qJCHfIF9ogNQGsys9YOHZA2HRkqJW9a9X8SEVDKMfxEPEnCUq5Nh5RvL8ziVNEMP55jxrfRdMCvKKTatcIFNuU/HYUrdVoUskWABkI2xzywL4lD0aTgnJVdW7YlslGYLcQfilCKQYmd6PiDF4D1RRa/FZK9ereZJHar3yo+6r5OrNABsZly1YMsaxR4GFsAQfsaDWJBVsfdZiq9ftCEGpoib/ohJSOB/hP22AZoiuWNBz6Txe3fNOfjpL3YBM6V/k="
