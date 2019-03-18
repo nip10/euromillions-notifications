@@ -33,7 +33,8 @@ export function sendWelcomeEmail(to: string, variables: IMailWelcome) {
     templateId: "d-ed1f1d388c3e4476bdf599ec34f9a516",
     dynamic_template_data: {
       minPrize: variables.minPrize,
-      indexUrl: URL.INDEX
+      indexUrl: URL.INDEX,
+      replyEmail: EMAIL_ADDRESS
     }
   };
   return sgMail.send(msg);
@@ -49,8 +50,12 @@ export function sendEditEmail(to: string, variables: IMailEdit) {
     templateId: "d-5d540038d0974581968265d357e71b4d",
     dynamic_template_data: {
       minPrizeUpdated: variables.minPrize,
-      updateUrl: URL.UPDATE({ token: variables.token }),
-      indexUrl: URL.INDEX
+      updateUrl: URL.EDIT({
+        token: variables.token,
+        minPrize: variables.minPrize
+      }),
+      indexUrl: URL.INDEX,
+      replyEmail: EMAIL_ADDRESS
     }
   };
   return sgMail.send(msg);
@@ -66,7 +71,8 @@ export function sendDeleteEmail(to: string, variables: IMailDelete) {
     templateId: "d-fc48fa042b3e40168b8fb0bf9de7aeb0",
     dynamic_template_data: {
       deleteUrl: URL.DELETE({ token: variables.token }),
-      indexUrl: URL.INDEX
+      indexUrl: URL.INDEX,
+      replyEmail: EMAIL_ADDRESS
     }
   };
   return sgMail.send(msg);
