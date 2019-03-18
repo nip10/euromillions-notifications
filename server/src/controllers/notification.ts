@@ -53,7 +53,14 @@ export async function sendEditNotificationEmail(req: Request, res: Response) {
   const token = generateToken();
   try {
     // Update the user document with new token
-    await Notification.updateOne({ email }, { token });
+    const { nModified }: { nModified: number } = await Notification.updateOne(
+      { email },
+      { token }
+    );
+    // nModified is the number of modified/updated documents
+    if (nModified === 0) {
+      return res.status(400).json({ error: ERROR.EMAIL_NOTFOUND });
+    }
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
   }
@@ -108,7 +115,14 @@ export async function sendDeleteNotificationEmail(req: Request, res: Response) {
   const token = generateToken();
   try {
     // Update the user document with new token
-    await Notification.updateOne({ email }, { token });
+    const { nModified }: { nModified: number } = await Notification.updateOne(
+      { email },
+      { token }
+    );
+    // nModified is the number of modified/updated documents
+    if (nModified === 0) {
+      return res.status(400).json({ error: ERROR.EMAIL_NOTFOUND });
+    }
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
   }

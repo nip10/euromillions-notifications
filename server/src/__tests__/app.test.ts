@@ -118,6 +118,19 @@ describe("POST /editnotification/request", () => {
     expect(res.body.error).toBe(VALIDATION.EMAIL_INVALID({ email }));
     done();
   });
+  it("should respond with 400 and a validation error when email does not exist", async done => {
+    const email = "validEmail@butDoesntExist.com";
+    const minPrize = 100;
+    const res = await request(app)
+      .post("/editnotification/request")
+      .send({ email, minPrize })
+      .set("Accept", "application/json");
+    expect(res).toBeDefined();
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
+    expect(res.body.error).toBe(ERROR.EMAIL_NOTFOUND);
+    done();
+  });
   it("should respond with 400 and a validation error when minPrize is above max", async done => {
     const email = "validEmail@mail.com";
     const minPrize = PRIZE.MAX + 10;
@@ -242,6 +255,18 @@ describe("POST /deletenotification/request", () => {
     expect(res.status).toBe(400);
     expect(res.body.error).toBeDefined();
     expect(res.body.error).toBe(VALIDATION.EMAIL_INVALID({ email }));
+    done();
+  });
+  it("validation: should respond with 400 and a validation error when email doesnt exist", async done => {
+    const email = "validEmail@butDoesntExist.com";
+    const res = await request(app)
+      .post("/deletenotification/request")
+      .send({ email })
+      .set("Accept", "application/json");
+    expect(res).toBeDefined();
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBeDefined();
+    expect(res.body.error).toBe(ERROR.EMAIL_NOTFOUND);
     done();
   });
 });
