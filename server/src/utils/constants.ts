@@ -14,12 +14,23 @@ export const URL = {
   ),
   DELETE: _.template("https://em.diogocardoso.me/deletenotification/${token}")
 };
+
 export const ERROR = {
   SERVER: "Server error. Please try again later.",
   EMAIL_NOTFOUND: "Email is not subscribed.",
   EMAIL_DUPLICATE: "Email already registred.",
   EMAIL_SEND: "Unable to send email. Please try again later.",
   TOKEN_EXPIRED: "Token has expired."
+};
+
+export const SUCCESS = {
+  CREATED: "Notification created successfully",
+  EDITED: "Notification edited successfully",
+  REQUEST_EDIT:
+    "Email sent successfully. Click the confirmation link to edit your notification.",
+  DELETED: "Notification deleted successfully",
+  REQUEST_DELETE:
+    "Email sent successfully. Click the confirmation link to delete your notification."
 };
 
 export const VALIDATION = {
