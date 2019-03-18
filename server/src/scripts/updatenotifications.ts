@@ -5,6 +5,7 @@ import Notification from "../models/notification";
 import sgMail from "@sendgrid/mail";
 import dotenv from "dotenv";
 import logger from "../utils/logger";
+import { URL } from "../utils/constants";
 
 dotenv.config({ path: "../.env" });
 const { EMAIL_SENDGRID_API_KEY, EMAIL_ADDRESS } = process.env;
@@ -26,6 +27,7 @@ function getPrizeFromXml(xml: string) {
       const endIndex = data.indexOf(".");
       const prize = data.substring(beginIndex + 1, endIndex);
       const prizeNum = Number.parseInt(prize, 10);
+      logger.info(`Current prize is ${prizeNum}€`);
       return resolve(prizeNum);
     });
   });
@@ -40,12 +42,15 @@ async function getEmailsWithMinprize(currentPrize: number) {
 }
 
 async function sendEmails(emails: IEmail[], currentPrize: number) {
+  logger.info(`Sending emails to ${emails}`);
   const msg = {
     to: emails.map(email => email.email),
     from: EMAIL_ADDRESS,
     templateId: "d-04a23cbfcbeb41fb9dbb3be4019e1eb2",
     dynamic_template_data: {
-      currentPrize
+      currentPrize,
+      indexUrl: URL.INDEX,
+      replyEmail: EMAIL_ADDRESS
     }
   };
   return sgMail.sendMultiple(msg);
@@ -68,6 +73,7 @@ function updateNotifications() {
 }
 
 export default new CronJob("0 0 8 * * 3,6", () => {
+  // export default new CronJob("0 */5 * * * *", () => {
   return updateNotifications()
     .then(() => logger.info("Notifications updated."))
     .catch(() => logger.error("Failed updating notifications."));
