@@ -8,14 +8,15 @@ export const PRIZE = {
 };
 
 export const URL = {
-  INDEX: "https://p.dcdev.pt/euronotify",
-  UPDATE: _.template("https://p.dcdev.pt/euronotify/editnotification/${token}"),
-  DELETE: _.template(
-    "https://p.dcdev.pt/euronotify/deletenotification/${token}"
-  )
+  INDEX: "https://em.diogocardoso.me",
+  EDIT: _.template(
+    "https://em.diogocardoso.me/editnotification/${token}/${minPrize}/"
+  ),
+  DELETE: _.template("https://em.diogocardoso.me/deletenotification/${token}")
 };
 export const ERROR = {
   SERVER: "Server error. Please try again later.",
+  EMAIL_NOTFOUND: "Email is not subscribed.",
   EMAIL_DUPLICATE: "Email already registred.",
   EMAIL_SEND: "Unable to send email. Please try again later.",
   TOKEN_EXPIRED: "Token has expired."
