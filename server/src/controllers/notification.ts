@@ -6,7 +6,12 @@ import {
   sendDeleteEmail,
   sendEditEmail
 } from "../services/mail";
-import { ERROR, VALIDATION, TOKEN_DURATION_IN_DAYS } from "../utils/constants";
+import {
+  ERROR,
+  SUCCESS,
+  VALIDATION,
+  TOKEN_DURATION_IN_DAYS
+} from "../utils/constants";
 import { generateToken } from "../utils/misc";
 import logger from "../utils/logger";
 
@@ -37,7 +42,7 @@ export async function createNotification(req: Request, res: Response) {
         notificationObj.minPrize
       }M.`
     );
-    res.sendStatus(201);
+    return res.status(201).json({ message: SUCCESS.CREATED });
   } catch (e) {
     return res.status(500).json({ error: ERROR.EMAIL_SEND });
   }
@@ -67,7 +72,7 @@ export async function sendEditNotificationEmail(req: Request, res: Response) {
   try {
     // Send email to user
     await sendEditEmail(email, { minPrize, token });
-    return res.sendStatus(200);
+    return res.json({ message: SUCCESS.REQUEST_EDIT });
   } catch (e) {
     return res.status(500).json({ error: ERROR.EMAIL_SEND });
   }
@@ -102,7 +107,7 @@ export async function editNotification(req: Request, res: Response) {
       { email: notificationObj.email },
       { minPrize, token: null }
     );
-    return res.sendStatus(200);
+    return res.json({ message: SUCCESS.EDITED });
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
   }
@@ -129,7 +134,7 @@ export async function sendDeleteNotificationEmail(req: Request, res: Response) {
   try {
     // Send email to user
     await sendDeleteEmail(email, { token });
-    return res.sendStatus(200);
+    return res.json({ message: SUCCESS.REQUEST_DELETE });
   } catch (e) {
     return res.status(500).json({ error: ERROR.EMAIL_SEND });
   }
@@ -157,7 +162,7 @@ export async function deleteNotification(req: Request, res: Response) {
   try {
     await Notification.deleteOne({ email: notificationObj.email });
     logger.info(`Deleted new notification. Details: ${notificationObj.email}.`);
-    return res.sendStatus(200);
+    return res.json({ message: SUCCESS.DELETED });
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
   }

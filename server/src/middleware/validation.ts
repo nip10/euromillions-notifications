@@ -30,7 +30,7 @@ export function validateEmailAndMinprize(
         .status(400)
         .json({ error: VALIDATION.EMAIL_INVALID({ email: value.email }) });
     } else if (error.details[0].path[0] === "minPrize") {
-      res.status(400).json({ error: VALIDATION.MINPRIZE_INVALID });
+      return res.status(400).json({ error: VALIDATION.MINPRIZE_INVALID });
     }
   } else {
     // Send the notification object to the next middleware
@@ -49,7 +49,9 @@ export function validateEmail(req: Request, res: Response, next: NextFunction) {
   const { error, value } = Joi.validate(email, schema);
 
   if (error) {
-    res.status(400).json({ error: VALIDATION.EMAIL_INVALID({ email: value }) });
+    return res
+      .status(400)
+      .json({ error: VALIDATION.EMAIL_INVALID({ email: value }) });
   } else {
     // Send the notification object to the next middleware
     res.locals.email = email;
@@ -78,9 +80,9 @@ export function validateTokenAndMinprize(
 
   if (error) {
     if (error.details[0].path[0] === "token") {
-      res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
+      return res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
     } else if (error.details[0].path[0] === "minPrize") {
-      res.status(400).json({ error: VALIDATION.MINPRIZE_INVALID });
+      return res.status(400).json({ error: VALIDATION.MINPRIZE_INVALID });
     }
   } else {
     // Send the edit notification object to the next middleware
@@ -97,7 +99,7 @@ export function validateToken(req: Request, res: Response, next: NextFunction) {
   const { error, value } = Joi.validate(token, schema);
 
   if (error) {
-    res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
+    return res.status(400).json({ error: VALIDATION.TOKEN_INVALID });
   } else {
     // Send the edit notification object to the next middleware
     res.locals.deleteNotificationObj = { token };
