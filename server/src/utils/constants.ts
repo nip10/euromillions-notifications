@@ -8,11 +8,13 @@ export const PRIZE = {
 };
 
 export const URL = {
-  INDEX: "https://em.diogocardoso.me",
+  INDEX: "https://euronotify.diogocardoso.me",
   EDIT: _.template(
-    "https://em.diogocardoso.me/editnotification/${token}/${minPrize}/"
+    "https://euronotify.diogocardoso.me/editnotification/${token}/${minPrize}/"
   ),
-  DELETE: _.template("https://em.diogocardoso.me/deletenotification/${token}")
+  DELETE: _.template(
+    "https://euronotify.diogocardoso.me/deletenotification/${token}"
+  )
 };
 
 export const ERROR = {
