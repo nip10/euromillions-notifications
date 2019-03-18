@@ -5,11 +5,11 @@
 }
 
 .actionmenu-container span {
-  background-color: hsla(0,0%,100%,.15);
+  background-color: hsla(0, 0%, 100%, 0.15);
   padding: 0.5rem;
   cursor: pointer;
 }
 
-.actionmenu-container span:first-child {
+.actionmenu-container span:not(:last-child) {
   margin-right: 1rem;
 }

@@ -1,34 +1,46 @@
-import React, { Component, Fragment } from 'react';
-import './Home.css';
+import React, { Component, Fragment } from "react";
+import "./Home.css";
 
-import AddForm from '../../components/AddForm/AddForm';
-import EditForm from '../../components/EditForm/EditForm';
-import DeleteForm from '../../components/DeleteForm/DeleteForm';
-import ActionMenu from '../../components/ActionMenu/ActionMenu';
+import AddForm from "../../components/AddForm/AddForm";
+import EditForm from "../../components/EditForm/EditForm";
+import DeleteForm from "../../components/DeleteForm/DeleteForm";
+import ActionMenu from "../../components/ActionMenu/ActionMenu";
 
-interface IHomeState {
-  formType: string,
+enum FormTypes {
+  add = "add",
+  edit = "edit",
+  delete = "delete"
 }
 
-class Home extends Component<{}, IHomeState> {
-  constructor(props: {}) {
+interface IHomeState {
+  formType: FormTypes;
+}
+
+interface IHomeProps {
+  formType: FormTypes;
+}
+
+class Home extends Component<IHomeProps, IHomeState> {
+  constructor(props: IHomeProps) {
     super(props);
     this.state = {
-      formType: 'add',
-    }
+      formType: this.props.formType
+    };
   }
 
-  private toggleFormType = (formType: string) => {
-    this.setState({ formType });
+  static getDerivedStateFromProps(nextProps: IHomeProps) {
+    return {
+      formType: nextProps.formType
+    };
   }
 
   public render() {
     return (
       <Fragment>
-        {this.state.formType === 'add' && <AddForm/>}
-        {this.state.formType === 'edit' && <EditForm/>}
-        {this.state.formType === 'delete' && <DeleteForm/>}
-        <ActionMenu toggleFormType={this.toggleFormType}/>
+        {this.state.formType === FormTypes.add && <AddForm />}
+        {this.state.formType === FormTypes.edit && <EditForm />}
+        {this.state.formType === FormTypes.delete && <DeleteForm />}
+        <ActionMenu formType={this.state.formType} />
       </Fragment>
     );
   }
