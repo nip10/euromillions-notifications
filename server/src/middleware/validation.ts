@@ -3,7 +3,7 @@ import _ from "lodash";
 import { Request, Response, NextFunction } from "express";
 import { VALIDATION, PRIZE } from "./../utils/constants";
 
-export function validateCreateOrEditNotification(
+export function validateEmailAndMinprize(
   req: Request,
   res: Response,
   next: NextFunction
@@ -57,13 +57,13 @@ export function validateEmail(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export function validateEditNotification(
+export function validateTokenAndMinprize(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  const { token } = req.params;
-  const minPrize = Number.parseInt(req.params.minPrize, 10);
+  const { token } = req.body;
+  const minPrize = Number.parseInt(req.body.minPrize, 10);
 
   const schema = {
     token: Joi.string().required(),
@@ -89,12 +89,8 @@ export function validateEditNotification(
   }
 }
 
-export function validateDeleteNotification(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const { token } = req.params;
+export function validateToken(req: Request, res: Response, next: NextFunction) {
+  const { token } = req.body;
 
   const schema = Joi.string().required();
 

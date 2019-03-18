@@ -58,6 +58,7 @@ export async function sendEditNotificationEmail(req: Request, res: Response) {
     return res.status(500).json({ error: ERROR.SERVER });
   }
   try {
+    // Send email to user
     await sendEditEmail(email, { minPrize, token });
     return res.sendStatus(200);
   } catch (e) {
@@ -66,6 +67,8 @@ export async function sendEditNotificationEmail(req: Request, res: Response) {
 }
 
 export async function editNotification(req: Request, res: Response) {
+  // TODO: Create a token, save it to the user document, send an email with an url /editnotification/:token
+  // This url is client-side, not the api. Try to edit the notification via componentdidmount and then show the result
   const {
     token,
     minPrize
@@ -92,7 +95,7 @@ export async function editNotification(req: Request, res: Response) {
       { email: notificationObj.email },
       { minPrize, token: null }
     );
-    return res.redirect("/editnotification");
+    return res.sendStatus(200);
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
   }
@@ -110,6 +113,7 @@ export async function sendDeleteNotificationEmail(req: Request, res: Response) {
     return res.status(500).json({ error: ERROR.SERVER });
   }
   try {
+    // Send email to user
     await sendDeleteEmail(email, { token });
     return res.sendStatus(200);
   } catch (e) {
@@ -139,7 +143,7 @@ export async function deleteNotification(req: Request, res: Response) {
   try {
     await Notification.deleteOne({ email: notificationObj.email });
     logger.info(`Deleted new notification. Details: ${notificationObj.email}.`);
-    return res.redirect("/deletenotification");
+    return res.sendStatus(200);
   } catch (e) {
     return res.status(500).json({ error: ERROR.SERVER });
   }
