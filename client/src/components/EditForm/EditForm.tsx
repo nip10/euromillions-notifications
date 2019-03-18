@@ -13,8 +13,16 @@ interface IEditFormState {
   minPrize: number;
 }
 
-export default class EditForm extends Component<{}, IEditFormState> {
-  constructor(props: {}) {
+interface IEditFormProps {
+  setMessage: (message: string) => void;
+  clearMessage: () => void;
+}
+
+export default class EditForm extends Component<
+  IEditFormProps,
+  IEditFormState
+> {
+  constructor(props: IEditFormProps) {
     super(props);
     // this.state = { email: '', minPrize: 0, validationError: false };
     this.state = { email: "", minPrize: 0 };
@@ -26,6 +34,7 @@ export default class EditForm extends Component<{}, IEditFormState> {
 
   private handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    this.props.clearMessage();
     const email = this.state.email;
     const minPrize = this.state.minPrize;
     try {

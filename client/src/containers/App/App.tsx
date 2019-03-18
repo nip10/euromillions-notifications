@@ -5,7 +5,6 @@ import {
   Switch,
   Redirect
 } from "react-router-dom";
-
 import Layout from "../Layout/Layout";
 import Home from "../../pages/Home/Home";
 import Delete from "../../pages/Delete/Delete";

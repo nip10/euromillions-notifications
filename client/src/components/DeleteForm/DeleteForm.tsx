@@ -12,8 +12,16 @@ interface IDeleteFormState {
   email: string;
 }
 
-export default class DeleteForm extends Component<{}, IDeleteFormState> {
-  constructor(props: {}) {
+interface IEditFormProps {
+  setMessage: (message: string) => void;
+  clearMessage: () => void;
+}
+
+export default class DeleteForm extends Component<
+  IEditFormProps,
+  IDeleteFormState
+> {
+  constructor(props: IEditFormProps) {
     super(props);
     this.state = { email: "" };
   }
@@ -24,6 +32,7 @@ export default class DeleteForm extends Component<{}, IDeleteFormState> {
 
   private handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    this.props.clearMessage();
     const email = this.state.email;
     try {
       const res: AxiosResponse = await Axios.post(

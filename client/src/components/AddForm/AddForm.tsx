@@ -13,8 +13,13 @@ interface IAddFormState {
   minPrize: number;
 }
 
-export default class AddForm extends Component<{}, IAddFormState> {
-  constructor(props: {}) {
+interface IAddFormProps {
+  setMessage: (message: string) => void;
+  clearMessage: () => void;
+}
+
+export default class AddForm extends Component<IAddFormProps, IAddFormState> {
+  constructor(props: IAddFormProps) {
     super(props);
     this.state = { email: "", minPrize: 0 };
   }
@@ -25,6 +30,7 @@ export default class AddForm extends Component<{}, IAddFormState> {
 
   private handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    this.props.clearMessage();
     const email = this.state.email;
     const minPrize = this.state.minPrize;
     try {
@@ -33,8 +39,10 @@ export default class AddForm extends Component<{}, IAddFormState> {
         { email, minPrize }
       );
       console.log("Success! Notification created.");
+      this.props.setMessage("Success! Notification created.");
     } catch (error) {
       console.log("Error:", error);
+      this.props.setMessage("Error creating notification.");
     }
   };
 
