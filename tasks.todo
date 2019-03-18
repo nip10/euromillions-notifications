@@ -1,33 +1,9 @@
 Client:
-    ☐ Simplify pages @low
-        There's a lot of duplicated code
-        Move the common stuff (title, github corner) to App and render children there
-        Pass the components as the children
-    ☐ Move routes from server to client
-        It doesn't make sense to have the edit/delete get requests, since they are on the api and not on the client side
-        Run validation on the url itself, assume the email and token is valid, and then validate server side
-
-        To use the form itself, the router needs to pass in props for formType
-        Also, the formtype needs to be set (in state) before mounting the component
-    ☐ Add success messages @high
-    ☐ Add error handling @high
-        ☐ When creating a notification
-        ☐ When editing a notification
-        ☐ When deleting a notification
-    ☐ Change form types to enum @low
-    ☐ Consider sending the welcome email in the background and allow the process to continue @low
-        Since this email is just for saying welcome and basic information, it's not critical if the user
-        doesn't receive it ?
+    ☐ Update nav buttons @high
+        ☐ When toggling between different "modes", the height of the row changes.
+        ☐ Add hover styles
     ☐ Allow multiple currencies @low
         ☐ A first approach can be a simple dropdown with different currencies
         ☐ Consider adding geolocation or something like that, to try to guess the user's currency
-    ☐ Test sending an email to an invalid email
-
 Server:
-    ☐ Figure out the differences between mongoose.connection.dropDatabase() and mongoose.connection.db.dropDatabase(); @low
-        In setting up tests
-        This works:
-            await mongoose.connection.dropDatabase();
-        This does NOT work:
-            await mongoose.connection.db.dropDatabase();
     ☐ Test sending an email to an invalid email  @high

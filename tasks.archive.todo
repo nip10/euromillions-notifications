@@ -1,3 +1,54 @@
+✔ Add success messages @high @done(19-03-18 23:47)
+    ✔ Send messages on 200's @done(19-03-18 23:47)
+✔ Add error handling @high @done(19-03-18 23:47)
+    ✔ When creating a notification @done(19-03-18 23:47)
+    ✔ When editing a notification @done(19-03-18 23:47)
+    ✔ When deleting a notification @done(19-03-18 23:47)
+✔ Add validation @done(19-03-18 22:14)
+    sendEditNotificationEmail
+    sendDeleteNotificationEmail
+    ✔ Make sure the emails exist before doing anything @done(19-03-18 22:14)
+        Test what happens with the current logic. Mongo may return an error which is enough
+        Solution: Just try to add the token to the email address. If it doesnt exist, it returns 0.
+✘ Figure out the differences between mongoose.connection.dropDatabase() and mongoose.connection.db.dropDatabase(); @low @cancelled(19-03-18 22:00)
+    In setting up tests
+    This works:
+        await mongoose.connection.dropDatabase();
+    This does NOT work:
+        await mongoose.connection.db.dropDatabase();
+✔ Fix email templates @done(19-03-18 21:58)
+    ✔ Welcome @done(19-03-18 21:58)
+    ✔ Edit @done(19-03-18 21:58)
+    ✔ Delete @done(19-03-18 21:58)
+✔ Fix tests @done(19-03-18 21:29)
+✔ Update routes @done(19-03-18 21:27)
+✔ Change HTTP methods on edit and delete routes @done(19-03-18 21:27)
+✔ Change edit route to PATCH @done(19-03-18 21:27)
+✔ Change delete route to PATCH @done(19-03-18 21:27)
+✔ Update tests @done(19-03-18 21:27)
+✔ Update http success code on edited/deleted notification @done(19-03-18 21:29)
+Both 200 and 204 codes are ok. Keeping 200.
+✔ Change form types to enum @low @done(19-03-18 16:24)
+✔ Consider changing the actionmenu to return a NAV and not a DIV @done(19-03-18 16:06)
+✔ Hide the button of the current page in the actionmenu @done(19-03-18 01:55)
+✔ Remove any's @done(19-03-18 16:20)
+✔ Add types to params @done(19-03-18 16:20)
+✔ Update controllers @done(19-03-18 15:29)
+        ✔ Check TODO's on routes @done(19-03-18 15:20)
+        ✔ Remove res.redirects @done(19-03-18 15:20)
+✔ Add pages for confirming update/delete notification @done(19-03-18 16:20)
+    This should make a request on componentDidMount or something, and then return a success/error message
+    Ended up using React Hooks
+✔ Simplify pages @low @done(19-03-18 15:21)
+        There's a lot of duplicated code
+        Move the common stuff (title, github corner) to App and render children there
+        Pass the components as the children
+✔ Move routes from server to client @done(19-03-18 15:21)
+    It doesn't make sense to have the edit/delete get requests, since they are on the api and not on the client side
+    Run validation on the url itself, assume the email and token is valid, and then validate server side
+
+    To use the form itself, the router needs to pass in props for formType
+    Also, the formtype needs to be set (in state) before mounting the component
 ✔ Fix prettier not working with ts @done(19-02-11 19:32)
     I'm dumb and disabled 'format on save'
 ✔ Add logger @done(19-02-11 19:26)
