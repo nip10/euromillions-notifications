@@ -10,7 +10,7 @@ interface IMatch {
 const isDev = process.env.NODE_ENV === "development";
 const API_BASE_URL = isDev
   ? "http://localhost:3001"
-  : "https://www.api.em.diogocardoso.me";
+  : "https://www.api.euronotify.diogocardoso.me";
 
 const Delete = (match: match<IMatch>) => {
   const [message, setMessage] = useState("");
