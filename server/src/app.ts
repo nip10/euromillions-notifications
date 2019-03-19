@@ -12,9 +12,9 @@ import routes from "./routes/notification";
 import updateNotifications from "./scripts/updatenotifications";
 import { ERROR } from "./utils/constants";
 
-dotenv.config({ path: ".env" });
+dotenv.config();
 const { NODE_ENV, CLIENT_DEV_PORT, BASE_URL } = process.env;
-const isDev = NODE_ENV === "development";
+const isProd = NODE_ENV === "production";
 
 const app = express();
 
@@ -34,7 +34,6 @@ const corsOptions: CorsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(helmet());
 
 app.use(bodyParser.json());
@@ -63,7 +62,7 @@ app.use(
     if (res.headersSent) {
       return next(err);
     }
-    return res.status(500).json({ error: isDev ? err : ERROR.SERVER });
+    return res.status(500).json({ error: isProd ? ERROR.SERVER : err });
   }
 );
 
