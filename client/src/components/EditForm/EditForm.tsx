@@ -6,7 +6,7 @@ import "./EditForm.css";
 const isDev = process.env.NODE_ENV === "development";
 const API_BASE_URL = isDev
   ? "http://localhost:3001"
-  : "https://www.api.em.diogocardoso.me";
+  : "https://www.api.euronotify.diogocardoso.me";
 
 interface IEditFormState {
   email: string;
