@@ -12,7 +12,8 @@
     "react-scripts": "2.1.8",
     "typescript": "3.3.3333"
   },
-  "homepage": "https://www.euronotify.diogocardoso.me",
+  "proxy": "http://localhost:3004",
+  "homepage": "https://euronotify.diogocardoso.me",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
