@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import GithubCorner from "react-github-corner";
 import Title from "../../components/Title/Title";
+import "./Layout.css";
 
 interface ILayoutProps {
   children: React.ReactNode;

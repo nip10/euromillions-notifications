@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
 body {
   background-color: #d35400;
@@ -8,7 +8,7 @@ body {
   margin: 0 auto;
 }
 
-@media (max-width : 768px) {
+@media (max-width: 1000px) {
   body {
     max-width: 80%;
   }
