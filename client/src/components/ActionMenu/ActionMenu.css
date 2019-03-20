@@ -10,6 +10,10 @@
   cursor: pointer;
 }
 
+.actionmenu-container span:hover {
+  background-color: hsla(0, 0%, 100%, 0.1);
+}
+
 .actionmenu-container span:not(:last-child) {
   margin-right: 1rem;
 }
