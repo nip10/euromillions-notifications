@@ -1,3 +1,6 @@
+✔ Update nav buttons @high @done(19-03-20 13:11)
+    ✔ When toggling between different "modes", the height of the row changes. @done(19-03-20 13:11)
+    ✔ Add hover styles @done(19-03-20 13:11)
 ✔ Add success messages @high @done(19-03-18 23:47)
     ✔ Send messages on 200's @done(19-03-18 23:47)
 ✔ Add error handling @high @done(19-03-18 23:47)

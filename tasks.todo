@@ -1,7 +1,4 @@
 Client:
-    ☐ Update nav buttons @high
-        ☐ When toggling between different "modes", the height of the row changes.
-        ☐ Add hover styles
     ☐ Allow multiple currencies @low
         ☐ A first approach can be a simple dropdown with different currencies
         ☐ Consider adding geolocation or something like that, to try to guess the user's currency
