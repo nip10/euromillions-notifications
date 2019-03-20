@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import "./Home.css";
 
 import AddForm from "../../components/AddForm/AddForm";
 import EditForm from "../../components/EditForm/EditForm";

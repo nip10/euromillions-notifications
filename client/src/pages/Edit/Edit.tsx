@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { match } from "react-router-dom";
 import Axios, { AxiosResponse } from "axios";
-import "./Edit.css";
 
 interface IMatch {
   token: string;
