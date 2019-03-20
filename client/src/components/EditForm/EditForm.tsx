@@ -24,8 +24,7 @@ export default class EditForm extends Component<
 > {
   constructor(props: IEditFormProps) {
     super(props);
-    // this.state = { email: '', minPrize: 0, validationError: false };
-    this.state = { email: "", minPrize: 0 };
+    this.state = { email: "", minPrize: 15 };
   }
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +81,7 @@ export default class EditForm extends Component<
           <span className="form-input-minprize-currency">M€</span>
         </div>
         <button className="form-submit-url" type="submit">
-          Notify me !
+          Submit
         </button>
       </form>
     );

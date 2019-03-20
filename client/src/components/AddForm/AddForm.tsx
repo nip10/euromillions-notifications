@@ -21,7 +21,7 @@ interface IAddFormProps {
 export default class AddForm extends Component<IAddFormProps, IAddFormState> {
   constructor(props: IAddFormProps) {
     super(props);
-    this.state = { email: "", minPrize: 0 };
+    this.state = { email: "", minPrize: 15 };
   }
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

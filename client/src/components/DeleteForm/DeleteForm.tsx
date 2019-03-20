@@ -63,7 +63,7 @@ export default class DeleteForm extends Component<
           required
         />
         <button className="form-submit-url" type="submit">
-          Notify me !
+          Submit
         </button>
       </form>
     );
