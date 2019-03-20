@@ -40,8 +40,10 @@ export default class DeleteForm extends Component<
         { email }
       );
       console.log("Success! Notification deleted.");
+      this.props.setMessage("Success! Notification deleted.");
     } catch (error) {
       console.log("Error:", error);
+      this.props.setMessage("Error deleting notification.");
     }
   };
 

@@ -43,8 +43,10 @@ export default class EditForm extends Component<
         { email, minPrize }
       );
       console.log("Success! Notification edited.");
+      this.props.setMessage("Success! Notification edited.");
     } catch (error) {
       console.log("Error:", error);
+      this.props.setMessage("Error editing notification.");
     }
   };
 
