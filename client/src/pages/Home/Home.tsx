@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from "react";
 
-import AddForm from "../../components/AddForm/AddForm";
-import EditForm from "../../components/EditForm/EditForm";
-import DeleteForm from "../../components/DeleteForm/DeleteForm";
+import AddForm from "../../components/Forms/AddForm/AddForm";
+import EditForm from "../../components/Forms/EditForm/EditForm";
+import DeleteForm from "../../components/Forms/DeleteForm/DeleteForm";
 import ActionMenu from "../../components/ActionMenu/ActionMenu";
 import ResMessage from "../../components/ResMessage/ResMessage";
+
+import "../../components/Forms/Forms.css";
 
 enum FormTypes {
   add = "add",

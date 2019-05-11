@@ -21,7 +21,7 @@ form > :nth-child(2) {
   border: none;
   text-indent: 1rem;
   background-color: #fdfdfd;
-  border: 1px solid #266cd4;
+  border-bottom: 1px solid #266cd4;
 }
 
 .form-minprize-container {
@@ -48,6 +48,7 @@ form > :nth-child(2) {
 .form-submit-url {
   padding: 0 1rem;
   height: calc(2.5rem + 2px);
+  background-color: #fdfdfd;
   border: none;
   text-transform: uppercase;
   font-weight: bold;

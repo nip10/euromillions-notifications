@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import classNames from "classnames";
-import "./EditForm.css";
 
 const isDev = process.env.NODE_ENV === "development";
 const API_BASE_URL = isDev

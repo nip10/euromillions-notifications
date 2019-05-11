@@ -1,27 +1,28 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import classNames from "classnames";
-import "./AddForm.css";
 
 const isDev = process.env.NODE_ENV === "development";
 const API_BASE_URL = isDev
   ? "http://localhost:3001"
   : "https://www.api.euronotify.diogocardoso.me";
 
-interface IAddFormState {
+interface IDeleteFormState {
   email: string;
-  minPrize: number;
 }
 
-interface IAddFormProps {
+interface IEditFormProps {
   setMessage: (message: string) => void;
   clearMessage: () => void;
 }
 
-export default class AddForm extends Component<IAddFormProps, IAddFormState> {
-  constructor(props: IAddFormProps) {
+export default class DeleteForm extends Component<
+  IEditFormProps,
+  IDeleteFormState
+> {
+  constructor(props: IEditFormProps) {
     super(props);
-    this.state = { email: "", minPrize: 15 };
+    this.state = { email: "" };
   }
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,25 +33,18 @@ export default class AddForm extends Component<IAddFormProps, IAddFormState> {
     event.preventDefault();
     this.props.clearMessage();
     const email = this.state.email;
-    const minPrize = this.state.minPrize;
     try {
-      await Axios.post(`${API_BASE_URL}/createnotification`, {
-        email,
-        minPrize
-      });
-      console.log("Success! Notification created.");
-      this.props.setMessage("Success! Notification created.");
+      await Axios.post(`${API_BASE_URL}/deletenotification`, { email });
+      console.log("Success! Notification deleted.");
+      this.props.setMessage("Success! Notification deleted.");
     } catch (error) {
       console.log("Error:", error);
-      this.props.setMessage("Error creating notification.");
+      this.props.setMessage("Error deleting notification.");
     }
   };
 
   public render() {
     const emailInputClass = classNames("form-input-email", {
-      // 'form-input-url-invalid': this.state.validationError,
-    });
-    const minprizeInputClass = classNames("form-input-minprize", {
       // 'form-input-url-invalid': this.state.validationError,
     });
     return (
@@ -64,21 +58,8 @@ export default class AddForm extends Component<IAddFormProps, IAddFormState> {
           placeholder="Your email address"
           required
         />
-        <div className="form-minprize-container">
-          <input
-            name="minPrize"
-            className={minprizeInputClass}
-            type="number"
-            value={this.state.minPrize}
-            onChange={this.handleChange}
-            min={15}
-            max={300}
-            required
-          />
-          <span className="form-input-minprize-currency">M€</span>
-        </div>
         <button className="form-submit-url" type="submit">
-          Notify me !
+          Submit
         </button>
       </form>
     );
