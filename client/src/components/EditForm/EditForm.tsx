@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Axios, { AxiosResponse } from "axios";
+import Axios from "axios";
 import classNames from "classnames";
 import "./EditForm.css";
 
@@ -37,10 +37,10 @@ export default class EditForm extends Component<
     const email = this.state.email;
     const minPrize = this.state.minPrize;
     try {
-      const res: AxiosResponse = await Axios.post(
-        `${API_BASE_URL}/editnotification/request`,
-        { email, minPrize }
-      );
+      await Axios.post(`${API_BASE_URL}/editnotification/request`, {
+        email,
+        minPrize
+      });
       console.log("Success! Notification edited.");
       this.props.setMessage("Success! Notification edited.");
     } catch (error) {

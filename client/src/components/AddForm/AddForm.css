@@ -2,6 +2,9 @@ form {
   display: flex;
   align-items: center;
   min-height: 40px;
+  padding: 50px 20px;
+  background-color: #fdfdfd;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1);
 }
 
 form > :not(:last-child) {
@@ -17,7 +20,7 @@ form > :nth-child(2) {
   height: 2rem;
   border: none;
   text-indent: 1rem;
-  background-color: #fdfdfd;
+  border-bottom: 1px solid #266cd4;
 }
 
 .form-minprize-container {
@@ -30,6 +33,7 @@ form > :nth-child(2) {
   border: none;
   text-indent: 1rem;
   background-color: #fdfdfd;
+  border-bottom: 1px solid #266cd4;
 }
 
 .form-input-minprize-currency {
@@ -45,12 +49,14 @@ form > :nth-child(2) {
   height: calc(2.5rem + 2px);
   background-color: #fdfdfd;
   border: none;
-  color: #b14700;
   text-transform: uppercase;
   font-weight: bold;
   cursor: pointer;
   outline: none;
   white-space: nowrap;
+  border-radius: 5px;
+  background-color: #266cd4;
+  color: white;
 }
 
 .form-submit-url:hover {

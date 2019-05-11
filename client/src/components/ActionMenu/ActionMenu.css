@@ -5,13 +5,14 @@
 }
 
 .actionmenu-container span {
-  background-color: hsla(0, 0%, 100%, 0.15);
+  background-color: #fdfdfd;
   padding: 0.5rem;
   cursor: pointer;
+  border: 1px solid #256bd4;
 }
 
 .actionmenu-container span:hover {
-  background-color: hsla(0, 0%, 100%, 0.1);
+  background-color: hsla(216, 70%, 49%, 0.01);
 }
 
 .actionmenu-container span:not(:last-child) {

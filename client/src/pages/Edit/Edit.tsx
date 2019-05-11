@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { match } from "react-router-dom";
-import Axios, { AxiosResponse } from "axios";
+import Axios from "axios";
 
 interface IMatch {
   token: string;
@@ -19,10 +19,10 @@ const Edit = (match: match<IMatch>) => {
     const reqEdit = async () => {
       const { token, minPrize } = match.params;
       try {
-        const res: AxiosResponse = await Axios.post(
-          `${API_BASE_URL}/editnotification/confirm`,
-          { token, minPrize }
-        );
+        await Axios.post(`${API_BASE_URL}/editnotification/confirm`, {
+          token,
+          minPrize
+        });
         setMessage("Success! Notification edited.");
         // console.log("Success! Notification edited.");
       } catch (error) {

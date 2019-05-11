@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Axios, { AxiosResponse } from "axios";
+import Axios from "axios";
 import classNames from "classnames";
 import "./AddForm.css";
 
@@ -34,10 +34,10 @@ export default class AddForm extends Component<IAddFormProps, IAddFormState> {
     const email = this.state.email;
     const minPrize = this.state.minPrize;
     try {
-      const res: AxiosResponse = await Axios.post(
-        `${API_BASE_URL}/createnotification`,
-        { email, minPrize }
-      );
+      await Axios.post(`${API_BASE_URL}/createnotification`, {
+        email,
+        minPrize
+      });
       console.log("Success! Notification created.");
       this.props.setMessage("Success! Notification created.");
     } catch (error) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { match } from "react-router-dom";
-import Axios, { AxiosResponse } from "axios";
+import Axios from "axios";
 
 interface IMatch {
   token: string;
@@ -18,10 +18,9 @@ const Delete = (match: match<IMatch>) => {
     const reqDelete = async () => {
       const { token } = match.params;
       try {
-        const res: AxiosResponse = await Axios.post(
-          `${API_BASE_URL}/deletenotification/confirm`,
-          { token }
-        );
+        await Axios.post(`${API_BASE_URL}/deletenotification/confirm`, {
+          token
+        });
         setMessage("Success! Notification deleted.");
         // console.log("Success! Notification deleted.");
       } catch (error) {

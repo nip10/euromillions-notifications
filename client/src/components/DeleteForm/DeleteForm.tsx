@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Axios, { AxiosResponse } from "axios";
+import Axios from "axios";
 import classNames from "classnames";
 import "./DeleteForm.css";
 
@@ -35,10 +35,7 @@ export default class DeleteForm extends Component<
     this.props.clearMessage();
     const email = this.state.email;
     try {
-      const res: AxiosResponse = await Axios.post(
-        `${API_BASE_URL}/deletenotification`,
-        { email }
-      );
+      await Axios.post(`${API_BASE_URL}/deletenotification`, { email });
       console.log("Success! Notification deleted.");
       this.props.setMessage("Success! Notification deleted.");
     } catch (error) {

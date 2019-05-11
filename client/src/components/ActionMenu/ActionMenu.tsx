@@ -29,27 +29,34 @@ class ActionMenu extends Component<IActionsMenuProps, IActionsMenuState> {
       redirectToCreate: false
     };
   }
+
   private toggleRedirectToEdit = () =>
     this.setState({
       redirectToEdit: true,
       redirectToDelete: false,
       redirectToCreate: false
     });
+
   private toggleRedirectToCreate = () =>
     this.setState({
       redirectToEdit: false,
       redirectToDelete: false,
       redirectToCreate: true
     });
+
   private toggleRedirectToDelete = () =>
     this.setState({
       redirectToEdit: false,
       redirectToDelete: true,
       redirectToCreate: false
     });
+
   private renderRedirectToEdit = () => <Redirect to="/editnotification" />;
+
   private renderRedirectToDelete = () => <Redirect to="/deletenotification" />;
+
   private renderRedirectToCreate = () => <Redirect to="/" />;
+
   public render() {
     return (
       <Fragment>
