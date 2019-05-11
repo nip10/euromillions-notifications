@@ -4,3 +4,5 @@ Client:
         ☐ Consider adding geolocation or something like that, to try to guess the user's currency
 Server:
     ☐ Test sending an email to an invalid email  @high
+    ☐ Add queue system (for creating)
+    ☐ Add cache system (redis, latest 100 urls ?)
