@@ -31,7 +31,7 @@ const Edit = (match: match<IMatch>) => {
       }
     };
     reqEdit();
-  }, []);
+  }, [match.params]);
 
   return (
     <div>

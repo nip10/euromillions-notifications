@@ -29,7 +29,8 @@ const Delete = (match: match<IMatch>) => {
       }
     };
     reqDelete();
-  }, []);
+
+  }, [match.params]);
 
   return (
     <div>
