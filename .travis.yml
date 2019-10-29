@@ -25,7 +25,7 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   # Delete bucket content
-  - aws_access_key_id=${AWS_ACCESS_KEY_ID} aws_secret_access_key=${AWS_SECRET_ACCESS_KEY} aws s3 rm s3://sh.diogocardoso.me --recursive --region eu-west-2
+  - aws_access_key_id=${AWS_ACCESS_KEY_ID} aws_secret_access_key=${AWS_SECRET_ACCESS_KEY} aws s3 rm s3://euronotify.diogocardoso.me --recursive --region eu-west-2
 before_deploy:
   - cd ../client
 notifications:
