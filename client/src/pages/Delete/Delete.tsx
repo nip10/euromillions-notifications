@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { match } from "react-router-dom";
+// import { match } from "react-router-dom";
 import Axios from "axios";
 
-interface IMatch {
-  token: string;
-}
+// interface IMatch {
+//   token: string;
+// }
 
 const isDev = process.env.NODE_ENV === "development";
 const API_BASE_URL = isDev
   ? "http://localhost:3001"
   : "https://www.api.euronotify.diogocardoso.me";
 
-const Delete = (match: match<IMatch>) => {
+const Delete = (match: any) => {
   const [message, setMessage] = useState("");
   // More info on why this is done like this: https://www.robinwieruch.de/react-hooks-fetch-data/
   useEffect(() => {
@@ -19,7 +19,7 @@ const Delete = (match: match<IMatch>) => {
       const { token } = match.params;
       try {
         await Axios.post(`${API_BASE_URL}/deletenotification/confirm`, {
-          token
+          token,
         });
         setMessage("Success! Notification deleted.");
         // console.log("Success! Notification deleted.");
@@ -29,7 +29,6 @@ const Delete = (match: match<IMatch>) => {
       }
     };
     reqDelete();
-
   }, [match.params]);
 
   return (

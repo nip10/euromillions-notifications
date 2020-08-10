@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { match } from "react-router-dom";
+// import { match } from "react-router-dom";
 import Axios from "axios";
 
-interface IMatch {
-  token: string;
-  minPrize: string;
-}
+// interface IMatch {
+//   token: string;
+//   minPrize: string;
+// }
 
 const isDev = process.env.NODE_ENV === "development";
 const API_BASE_URL = isDev
   ? "http://localhost:3001"
   : "https://www.api.euronotify.diogocardoso.me";
 
-const Edit = (match: match<IMatch>) => {
+const Edit = (match: any) => {
   const [message, setMessage] = useState("");
   // More info on why this is done like this: https://www.robinwieruch.de/react-hooks-fetch-data/
   useEffect(() => {
@@ -21,7 +21,7 @@ const Edit = (match: match<IMatch>) => {
       try {
         await Axios.post(`${API_BASE_URL}/editnotification/confirm`, {
           token,
-          minPrize
+          minPrize,
         });
         setMessage("Success! Notification edited.");
         // console.log("Success! Notification edited.");
