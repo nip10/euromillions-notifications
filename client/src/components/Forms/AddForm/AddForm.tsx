@@ -5,7 +5,7 @@ import classNames from "classnames";
 const isDev = process.env.NODE_ENV === "development";
 const API_BASE_URL = isDev
   ? "http://localhost:3001"
-  : "https://www.api.euronotify.diogocardoso.me";
+  : "https://www.api.euronotify.diogocardoso.dev";
 
 interface IAddFormState {
   email: string;
@@ -35,7 +35,7 @@ export default class AddForm extends Component<IAddFormProps, IAddFormState> {
     try {
       await Axios.post(`${API_BASE_URL}/createnotification`, {
         email,
-        minPrize
+        minPrize,
       });
       console.log("Success! Notification created.");
       this.props.setMessage("Success! Notification created.");

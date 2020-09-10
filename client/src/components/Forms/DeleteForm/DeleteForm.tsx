@@ -5,7 +5,7 @@ import classNames from "classnames";
 const isDev = process.env.NODE_ENV === "development";
 const API_BASE_URL = isDev
   ? "http://localhost:3001"
-  : "https://www.api.euronotify.diogocardoso.me";
+  : "https://www.api.euronotify.diogocardoso.dev";
 
 interface IDeleteFormState {
   email: string;

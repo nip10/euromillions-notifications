@@ -13,7 +13,7 @@
     "typescript": "3.5.3"
   },
   "proxy": "http://localhost:3004",
-  "homepage": "https://euronotify.diogocardoso.me",
+  "homepage": "https://euronotify.diogocardoso.dev",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
