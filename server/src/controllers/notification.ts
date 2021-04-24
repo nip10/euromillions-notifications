@@ -4,13 +4,13 @@ import Notification, { INotificationDocument } from "../models/notification";
 import {
   sendWelcomeEmail,
   sendDeleteEmail,
-  sendEditEmail
+  sendEditEmail,
 } from "../services/mail";
 import {
   ERROR,
   SUCCESS,
   VALIDATION,
-  TOKEN_DURATION_IN_DAYS
+  TOKEN_DURATION_IN_DAYS,
 } from "../utils/constants";
 import { generateToken } from "../utils/misc";
 import logger from "../utils/logger";
@@ -21,9 +21,9 @@ export function sayHello(req: Request, res: Response) {
 
 export async function createNotification(req: Request, res: Response) {
   // Get the notificationObj from the previous middleware
-  const {
-    notificationObj
-  }: { notificationObj: INotificationDocument } = res.locals;
+  const { notificationObj } = res.locals as {
+    notificationObj: INotificationDocument;
+  };
   try {
     await Notification.create(notificationObj);
   } catch (e) {
@@ -35,12 +35,10 @@ export async function createNotification(req: Request, res: Response) {
   }
   try {
     await sendWelcomeEmail(notificationObj.email, {
-      minPrize: notificationObj.minPrize
+      minPrize: notificationObj.minPrize,
     });
     logger.info(
-      `Created new notification. Details: ${notificationObj.email}, ${
-        notificationObj.minPrize
-      }M.`
+      `Created new notification. Details: ${notificationObj.email}, ${notificationObj.minPrize}M.`
     );
     return res.status(201).json({ message: SUCCESS.CREATED });
   } catch (e) {
@@ -52,7 +50,7 @@ export async function sendEditNotificationEmail(req: Request, res: Response) {
   // Get the email from the previous middleware
   const {
     email,
-    minPrize
+    minPrize,
   }: { email: string; minPrize: number } = res.locals.notificationObj;
   // Generate a new token
   const token = generateToken();
@@ -83,7 +81,7 @@ export async function editNotification(req: Request, res: Response) {
   // This url is client-side, not the api. Try to edit the notification via componentdidmount and then show the result
   const {
     token,
-    minPrize
+    minPrize,
   }: { token: string; minPrize: number } = res.locals.editNotificationObj;
   let notificationObj: INotificationDocument;
   try {
@@ -115,7 +113,7 @@ export async function editNotification(req: Request, res: Response) {
 
 export async function sendDeleteNotificationEmail(req: Request, res: Response) {
   // Get the email from the previous middleware
-  const { email }: { email: string } = res.locals;
+  const { email } = res.locals as { email: string };
   // Generate a new token
   const token = generateToken();
   try {

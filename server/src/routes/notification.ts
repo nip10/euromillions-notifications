@@ -5,13 +5,13 @@ import {
   sendEditNotificationEmail,
   sendDeleteNotificationEmail,
   editNotification,
-  deleteNotification
+  deleteNotification,
 } from "../controllers/notification";
 import {
   validateEmail,
   validateEmailAndMinprize,
   validateTokenAndMinprize,
-  validateToken
+  validateToken,
 } from "../middleware/validation";
 
 const router = express.Router();

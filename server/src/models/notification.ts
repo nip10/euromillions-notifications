@@ -19,24 +19,24 @@ const NotificationSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     minPrize: {
       type: Number,
       required: true,
       min: PRIZE.MIN,
-      max: PRIZE.MAX
+      max: PRIZE.MAX,
     },
     token: {
       type: {
         value: String,
-        expiresAt: Date
+        expiresAt: Date,
       },
-      default: null
-    }
+      default: null,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

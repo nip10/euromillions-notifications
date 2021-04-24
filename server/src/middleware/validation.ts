@@ -8,21 +8,14 @@ export function validateEmailAndMinprize(
   res: Response,
   next: NextFunction
 ) {
-  const { email } = req.body;
-  const minPrize = Number.parseInt(req.body.minPrize, 10);
+  const { email, minPrize } = req.body;
 
-  const schema = {
-    email: Joi.string()
-      .email()
-      .required(),
-    minPrize: Joi.number()
-      .integer()
-      .min(PRIZE.MIN)
-      .max(PRIZE.MAX)
-      .required()
-  };
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+    minPrize: Joi.number().integer().min(PRIZE.MIN).max(PRIZE.MAX).required(),
+  });
 
-  const { error, value } = Joi.validate({ email, minPrize }, schema);
+  const { error, value } = schema.validate({ email, minPrize });
 
   if (error) {
     if (error.details[0].path[0] === "email") {
@@ -42,11 +35,9 @@ export function validateEmailAndMinprize(
 export function validateEmail(req: Request, res: Response, next: NextFunction) {
   const { email } = req.body;
 
-  const schema = Joi.string()
-    .email()
-    .required();
+  const schema = Joi.string().email().required();
 
-  const { error, value } = Joi.validate(email, schema);
+  const { error, value } = schema.validate(email);
 
   if (error) {
     return res
@@ -64,19 +55,14 @@ export function validateTokenAndMinprize(
   res: Response,
   next: NextFunction
 ) {
-  const { token } = req.body;
-  const minPrize = Number.parseInt(req.body.minPrize, 10);
+  const { token, minPrize } = req.body;
 
-  const schema = {
+  const schema = Joi.object({
     token: Joi.string().required(),
-    minPrize: Joi.number()
-      .integer()
-      .min(PRIZE.MIN)
-      .max(PRIZE.MAX)
-      .required()
-  };
+    minPrize: Joi.number().integer().min(PRIZE.MIN).max(PRIZE.MAX).required(),
+  });
 
-  const { error, value } = Joi.validate({ token, minPrize }, schema);
+  const { error, value } = schema.validate({ token, minPrize });
 
   if (error) {
     if (error.details[0].path[0] === "token") {
@@ -96,7 +82,7 @@ export function validateToken(req: Request, res: Response, next: NextFunction) {
 
   const schema = Joi.string().required();
 
-  const { error, value } = Joi.validate(token, schema);
+  const { error, value } = schema.validate(token);
 
   if (error) {
     return res.status(400).json({ error: VALIDATION.TOKEN_INVALID });

@@ -34,8 +34,8 @@ export function sendWelcomeEmail(to: string, variables: IMailWelcome) {
     dynamic_template_data: {
       minPrize: variables.minPrize,
       indexUrl: URL.INDEX,
-      replyEmail: EMAIL_ADDRESS
-    }
+      replyEmail: EMAIL_ADDRESS,
+    },
   };
   return sgMail.send(msg);
 }
@@ -52,11 +52,11 @@ export function sendEditEmail(to: string, variables: IMailEdit) {
       minPrizeUpdated: variables.minPrize,
       updateUrl: URL.EDIT({
         token: variables.token,
-        minPrize: variables.minPrize
+        minPrize: variables.minPrize,
       }),
       indexUrl: URL.INDEX,
-      replyEmail: EMAIL_ADDRESS
-    }
+      replyEmail: EMAIL_ADDRESS,
+    },
   };
   return sgMail.send(msg);
 }
@@ -72,8 +72,8 @@ export function sendDeleteEmail(to: string, variables: IMailDelete) {
     dynamic_template_data: {
       deleteUrl: URL.DELETE({ token: variables.token }),
       indexUrl: URL.INDEX,
-      replyEmail: EMAIL_ADDRESS
-    }
+      replyEmail: EMAIL_ADDRESS,
+    },
   };
   return sgMail.send(msg);
 }

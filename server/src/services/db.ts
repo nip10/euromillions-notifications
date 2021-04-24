@@ -27,7 +27,7 @@ const dbUrl = isTest ? MONGODB_URI_TEST : MONGODB_URI;
 
 const mongooseOptions = {
   reconnectTries: 10,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 };
 
 // This needs to be set to avoid the deprecation warning. It'll probably be fixed in a future mongoose release,

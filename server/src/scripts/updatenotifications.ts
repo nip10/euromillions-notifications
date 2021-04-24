@@ -44,14 +44,14 @@ async function getEmailsWithMinprize(currentPrize: number) {
 async function sendEmails(emails: IEmail[], currentPrize: number) {
   logger.info(`Sending emails to ${emails}`);
   const msg = {
-    to: emails.map(email => email.email),
+    to: emails.map((email) => email.email),
     from: EMAIL_ADDRESS,
     templateId: "d-04a23cbfcbeb41fb9dbb3be4019e1eb2",
     dynamic_template_data: {
       currentPrize,
       indexUrl: URL.INDEX,
-      replyEmail: EMAIL_ADDRESS
-    }
+      replyEmail: EMAIL_ADDRESS,
+    },
   };
   return sgMail.sendMultiple(msg);
 }
@@ -66,7 +66,7 @@ function updateNotifications() {
       return getEmailsWithMinprize(currentPrize);
     })
     .then((emails: IEmail[]) => sendEmails(emails, prize))
-    .catch(error => {
+    .catch((error) => {
       logger.error("Error creating notifications. Details: ");
       logger.error(error);
     });

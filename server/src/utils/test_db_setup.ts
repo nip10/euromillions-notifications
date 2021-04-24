@@ -1,5 +1,5 @@
 import _ from "lodash";
-import uuidv4 from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 import logger from "./logger";
 import mongoose, { dbUrl, mongooseOptions } from "../services/db";
 import Notification, { INotification } from "../models/notification";
@@ -34,7 +34,7 @@ const createToken = (expired: boolean = false) => {
   dt.setDate(dt.getDate() + expiresAtInterval);
   return {
     value: uuidv4(),
-    expiresAt: dt
+    expiresAt: dt,
   };
 };
 
@@ -42,26 +42,26 @@ export const fakeNotifications: INotification[] = [
   {
     email: "a@mail.com",
     minPrize: 50,
-    token: createToken()
+    token: createToken(),
   },
   {
     email: "b@mail.com",
-    minPrize: 100
+    minPrize: 100,
   },
   {
     email: "c@mail.com",
-    minPrize: 120
+    minPrize: 120,
   },
   {
     email: "d@mail.com",
     minPrize: 150,
-    token: createToken()
+    token: createToken(),
   },
   {
     email: "e@mail.com",
     minPrize: 80,
-    token: createToken(true)
-  }
+    token: createToken(true),
+  },
 ];
 
 const createFakeNotifications = async () => {

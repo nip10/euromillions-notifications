@@ -10,7 +10,7 @@ const {
   NODE_ENV,
   MONGODB_URI,
   EMAIL_SENDGRID_API_KEY,
-  EMAIL_ADDRESS
+  EMAIL_ADDRESS,
 } = process.env;
 const PORT_N = Number.parseInt(PORT, 10);
 const isProd = NODE_ENV === "production";

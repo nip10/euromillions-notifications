@@ -2,9 +2,8 @@ import express, {
   Response,
   Request,
   NextFunction,
-  ErrorRequestHandler
+  ErrorRequestHandler,
 } from "express";
-import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import cors, { CorsOptions } from "cors";
@@ -21,7 +20,7 @@ const app = express();
 const whitelist = [
   `http://localhost:${CLIENT_DEV_PORT}`,
   `https://${BASE_URL}`,
-  `https://www.${BASE_URL}`
+  `https://www.${BASE_URL}`,
 ];
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
@@ -30,14 +29,14 @@ const corsOptions: CorsOptions = {
     } else {
       callback(new Error("Not allowed by CORS"));
     }
-  }
+  },
 };
 
 app.use(cors(corsOptions));
 app.use(helmet());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/", routes);
 
