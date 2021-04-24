@@ -32,23 +32,20 @@ class ActionMenu extends Component<IActionsMenuProps, IActionsMenuState> {
 
   private toggleRedirectToEdit = () =>
     this.setState({
+      ...this.state,
       redirectToEdit: true,
-      redirectToDelete: false,
-      redirectToCreate: false
     });
 
   private toggleRedirectToCreate = () =>
     this.setState({
-      redirectToEdit: false,
-      redirectToDelete: false,
-      redirectToCreate: true
+      ...this.state,
+      redirectToCreate: true,
     });
 
   private toggleRedirectToDelete = () =>
     this.setState({
-      redirectToEdit: false,
+      ...this.state,
       redirectToDelete: true,
-      redirectToCreate: false
     });
 
   private renderRedirectToEdit = () => <Redirect to="/editnotification" />;
@@ -60,9 +57,9 @@ class ActionMenu extends Component<IActionsMenuProps, IActionsMenuState> {
   public render() {
     return (
       <Fragment>
-        {this.state.redirectToEdit === true && this.renderRedirectToEdit()}
-        {this.state.redirectToDelete === true && this.renderRedirectToDelete()}
-        {this.state.redirectToCreate === true && this.renderRedirectToCreate()}
+        {this.state.redirectToEdit && this.renderRedirectToEdit()}
+        {this.state.redirectToDelete && this.renderRedirectToDelete()}
+        {this.state.redirectToCreate && this.renderRedirectToCreate()}
         <nav className="actionmenu-container">
           {this.props.formType !== FormTypes.add && (
             <span onClick={() => this.toggleRedirectToCreate()}>
