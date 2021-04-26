@@ -2,7 +2,7 @@ import { CronJob } from "cron";
 import axios, { AxiosResponse } from "axios";
 import { parseString } from "xml2js";
 import Notification from "../models/notification";
-import sgMail from "@sendgrid/mail";
+import sgMail, { MailDataRequired } from "@sendgrid/mail";
 import dotenv from "dotenv";
 import logger from "../utils/logger";
 import { URL } from "../utils/constants";
@@ -43,11 +43,15 @@ async function getEmailsWithMinprize(currentPrize: number) {
 
 async function sendEmails(emails: IEmail[], currentPrize: number) {
   logger.info(`Sending emails to ${emails}`);
-  const msg = {
-    to: emails.map((email) => email.email),
+  const msg: MailDataRequired = {
+    personalizations: [
+      {
+        to: emails.map((email) => email.email),
+      },
+    ],
     from: EMAIL_ADDRESS,
     templateId: "d-04a23cbfcbeb41fb9dbb3be4019e1eb2",
-    dynamic_template_data: {
+    dynamicTemplateData: {
       currentPrize,
       indexUrl: URL.INDEX,
       replyEmail: EMAIL_ADDRESS,
